@@ -1,0 +1,129 @@
+plugins {
+    id 'org.springframework.boot' version '2.4.0'
+    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+    id 'java'
+}
+
+group = 'io.gig'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '11'
+
+ext.querydslVersion = '4.3.1'
+
+def querydslProjects = [
+        project(':module-core')
+]
+
+bootJar {
+    enabled= false
+}
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+subprojects {
+    apply plugin: 'java'
+    apply plugin: 'org.springframework.boot'
+    apply plugin: 'io.spring.dependency-management'
+
+    sourceCompatibility = JavaVersion.VERSION_11
+
+    configurations {
+        devlopmentOnly
+        runtimeClasspath {
+            extendsFrom developmentOnly
+        }
+        compileOnly {
+            extendsFrom annotationProcessor
+        }
+    }
+
+    dependencies {
+        implementation 'org.springframework.boot:spring-boot-starter-web'
+        implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+        implementation 'org.springframework.boot:spring-boot-starter-validation'
+        implementation 'org.springframework.boot:spring-boot-starter-mail'
+
+        // config
+        annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
+
+        // aws
+        implementation 'com.amazonaws:aws-java-sdk-s3:1.11.228'
+
+        implementation group: 'org.springframework.mobile', name: 'spring-mobile-device', version: '1.1.3.RELEASE'
+
+        // file
+        implementation group: 'commons-io', name: 'commons-io', version: '2.6'
+
+        // thymeleaf
+        implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+        implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect'
+        implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity5'
+
+        // security
+        implementation 'org.springframework.boot:spring-boot-starter-security'
+        implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
+
+        // XSS Filter
+        implementation 'com.navercorp.lucy:lucy-xss-servlet:2.0.1'
+
+
+        compileOnly 'org.projectlombok:lombok'
+        developmentOnly 'org.springframework.boot:spring-boot-devtools'
+
+        // DB
+        runtimeOnly 'com.h2database:h2'
+        runtimeOnly 'org.mariadb.jdbc:mariadb-java-client'
+        implementation 'com.fasterxml.jackson.datatype:jackson-datatype-hibernate5:2.12.4' // Jackson이 지연로딩시 프록시 엔티티를 null로 설정
+
+        annotationProcessor 'org.projectlombok:lombok'
+        testImplementation 'org.springframework.boot:spring-boot-starter-test'
+        testCompile('org.springframework.security:spring-security-test')
+    }
+
+    configure (querydslProjects) {
+        apply plugin: 'java'
+        apply plugin: 'io.spring.dependency-management'
+        apply plugin: 'org.springframework.boot'
+
+        // Path Q-Class
+        def querydslSrcDir = "$buildDir/main/generated"
+
+        dependencies {
+            implementation "com.querydsl:querydsl-jpa:${querydslVersion}"
+            implementation "com.querydsl:querydsl-sql:${querydslVersion}"
+            annotationProcessor 'jakarta.persistence:jakarta.persistence-api'
+            annotationProcessor 'jakarta.annotation:jakarta.annotation-api'
+            annotationProcessor "com.querydsl:querydsl-apt:${querydslVersion}:jpa"  /*Q-클래스 생성.*/
+        }
+
+        sourceSets {
+            main.java.srcDir querydslSrcDir
+        }
+
+        compileJava {
+            options.incremental = true
+            options.annotationProcessorGeneratedSourcesDirectory(project.file(querydslSrcDir))
+        }
+
+        clean {
+            delete file(querydslSrcDir)
+        }
+    }
+
+    clean {
+        delete 'out'
+    }
+
+}
+
+test {
+    useJUnitPlatform()
+}

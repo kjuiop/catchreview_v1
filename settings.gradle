@@ -1,0 +1,3 @@
+rootProject.name = 'catchreview'
+include 'module-admin', 'module-core', 'module-web'
+
