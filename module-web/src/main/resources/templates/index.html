@@ -1,10 +1,23 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="~{layout}">
 
+<body>
+<div layout:fragment="content">
+    <div id="map" style="width:100%;height:750px;"></div>
+</div>
+<section layout:fragment="script">
+    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=7dca6aea711fa1eb3cc0fdc0f10ed702&libraries=services,clusterer,drawing"></script>
+    <script>
+        var container = document.getElementById('map');
+        var options = {
+            center: new kakao.maps.LatLng(33.450701, 126.570667),
+            level: 3
+        };
+        var map = new kakao.maps.Map(container, options);
+    </script>
+</section>
 </body>
 </html>

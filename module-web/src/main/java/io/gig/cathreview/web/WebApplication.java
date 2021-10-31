@@ -1,6 +1,6 @@
 package io.gig.cathreview.web;
 
-import io.gig.cathreview.web.config.ComponentConfig;
+import io.gig.catchreview.core.config.ComponentConfig;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;

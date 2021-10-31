@@ -69,7 +69,7 @@ subprojects {
 
         // security
         implementation 'org.springframework.boot:spring-boot-starter-security'
-        implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
+//        implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
 
         // XSS Filter
         implementation 'com.navercorp.lucy:lucy-xss-servlet:2.0.1'

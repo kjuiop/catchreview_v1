@@ -6,7 +6,7 @@ build/
 !**/src/test/**/build/
 
 ## Node Modules ##
-module-front/src/main/resources/static/node_modules
+module-web/src/main/resources/static/node_modules
 module-admin/src/main/resources/static/node_modules
 
 ### STS ###
