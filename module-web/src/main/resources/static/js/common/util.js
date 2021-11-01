@@ -1,7 +1,7 @@
 /**
  * @param options
  * @returns {boolean}
- * @author park-pro
+ * @author jake
  *
  * @example
  * <input type="text" class="form-control eventDate" name="eventDate">

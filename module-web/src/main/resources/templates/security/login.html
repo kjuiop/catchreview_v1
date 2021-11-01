@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="~{layout}">
+<head>
+    <style>
+        html,
+        body {
+            height: 100%;
+        }
+
+        body {
+            display: flex;
+            align-items: center;
+            padding-top: 40px;
+            padding-bottom: 40px;
+            background-color: #f5f5f5;
+        }
+
+        .form-signin {
+            width: 100%;
+            max-width: 400px;
+            padding: 15px;
+            margin: auto;
+        }
+
+        .form-signin .checkbox {
+            font-weight: 400;
+        }
+
+        .form-signin .form-floating:focus-within {
+            z-index: 2;
+        }
+
+        .form-signin input[type="email"] {
+            margin-bottom: -1px;
+            border-bottom-right-radius: 0;
+            border-bottom-left-radius: 0;
+        }
+
+        .form-signin input[type="password"] {
+            margin-bottom: 10px;
+            border-top-left-radius: 0;
+            border-top-right-radius: 0;
+        }
+
+        .form-signin .find-password {
+            margin-top: 3px;
+        }
+
+    </style>
+</head>
+<body>
+<div layout:fragment="content">
+    <main class="form-signin mt-5">
+        <form>
+            <div class="text-center">
+                <img class="mb-4" src="/images/star_logo.png" alt="" width="72" height="57">
+            </div>
+            <h1 class="h3 mb-3 fw-normal text-center">로그인</h1>
+
+            <div class="form-floating">
+                <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com">
+                <label for="floatingInput">이메일</label>
+            </div>
+            <div class="form-floating">
+                <input type="password" class="form-control" id="floatingPassword" placeholder="Password">
+                <label for="floatingPassword">비밀번호</label>
+            </div>
+            <div class="checkbox mb-3">
+                <label>
+                    <input type="checkbox" value="remember-me"> 자동 로그인
+                </label>
+            </div>
+            <button class="w-100 btn btn-lg btn-primary" type="submit">로그인</button>
+            <div class="mt-2">
+                <small class="text-muted">
+                    아직 계정이 없으신가요? <a href="/sign-up" class="text-decoration-none" th:href="@{/sign-up}">회원가입</a>
+                </small>
+                <small class="text-muted pull-right find-password">
+                    <a href="#" th:href="@{/forgot-password}" class="text-decoration-none">비밀번호 찾기</a>
+                </small>
+            </div>
+            <p class="mt-5 mb-3 text-muted text-center">Gig Company © 2021</p>
+        </form>
+    </main>
+</div>
+<section layout:fragment="script">
+</section>
+</body>
+</html>

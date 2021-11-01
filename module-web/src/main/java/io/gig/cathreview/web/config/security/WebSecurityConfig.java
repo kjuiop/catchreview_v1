@@ -27,7 +27,7 @@ public class WebSecurityConfig extends AbstractSecurityConfiguration {
     protected void configure(HttpSecurity http) throws Exception {
 
         http.authorizeRequests()
-                .antMatchers("/", LOGIN_URL, "/logout").permitAll()
+                .antMatchers("/", LOGIN_URL, "/logout", "/sign-up").permitAll()
                 .anyRequest().authenticated();
 
 //        http.exceptionHandling()
