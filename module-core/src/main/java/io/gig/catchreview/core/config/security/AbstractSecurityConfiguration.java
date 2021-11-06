@@ -16,8 +16,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 @RequiredArgsConstructor
 public abstract class AbstractSecurityConfiguration  extends WebSecurityConfigurerAdapter {
 
-//    @Bean
-//    public abstract UserDetailsService userDetailsService();
+    @Bean
+    public abstract UserDetailsService userDetailsService();
 
 
     @Override

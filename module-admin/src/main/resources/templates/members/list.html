@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="~{layout}">
+<body>
+<div layout:fragment="content" th:with="UserStatus = ${T(io.gig.catchreview.core.domain.user.UserStatus)}">
+    <div th:replace="layout/utilFragments::navigator('/account', '회원정보 관리', '회원 목록')"></div>
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="callout callout-info">
+                        <form name="frmSearch">
+                            <input type="hidden" name="page" th:value="${condition.page}" />
+                            <input type="hidden" name="size" th:value="${condition.size}" />
+                            <div class="col-12" style="margin-bottom: 25px;"><h5><i class="fa fa-users"></i> 회원관리</h5></div>
+                            <div class="col-12 display-flex-row line">
+                                <div class="col-2" style="padding-top: 5px; padding-left: 30px;">
+                                    <label>이메일</label>
+                                </div>
+                                <div class="col-7">
+                                    <input type="text" class="form-control" id="username" name="username" th:value="${condition.username}" placeholder="이메일을 입력하세요." />
+                                </div>
+                                <div class="col-3"></div>
+                            </div>
+                            <div class="col-12 display-flex-row line">
+                                <div class="col-2" style="padding-top: 5px; padding-left: 30px;">
+                                    <label>닉네임</label>
+                                </div>
+                                <div class="col-7">
+                                    <input type="text" class="form-control" id="nickname" name="nickname" th:value="${condition.nickname}" placeholder="닉네임을 입력하세요." />
+                                </div>
+                                <div class="col-3"></div>
+                            </div>
+                            <div class="col-12 display-flex-row line">
+                                <div class="col-2" style="padding-left: 30px;">
+                                    <label for="userStatus_All" class="control-label">상태</label>
+                                </div>
+                                <div class="col-10">
+                                    <label class="margin-right-10" for="userStatus_All" style="font-weight: normal;"><input type="radio" name="userStatus" id="userStatus_All" value="" th:checked="${condition.userStatus eq null}">&nbsp;&nbsp;&nbsp;전체</label> &nbsp;
+                                    <label class="margin-right-10" for="userStatus_Normal" style="font-weight: normal;"><input type="radio" name="userStatus" id="userStatus_Normal" value="NORMAL" th:checked="${condition.userStatus eq UserStatus.NORMAL}">&nbsp;&nbsp;&nbsp;정상</label>
+                                    <label class="margin-right-10" for="userStatus_Pending" style="font-weight: normal;"><input type="radio" name="userStatus" id="userStatus_Pending" value="PENDING" th:checked="${condition.userStatus eq UserStatus.PENDING}">&nbsp;&nbsp;&nbsp;보류</label>
+                                    <label class="margin-right-10" for="userStatus_Withdraw" style="font-weight: normal;"><input type="radio" name="userStatus" id="userStatus_Withdraw" value="WITHDRAW" th:checked="${condition.userStatus eq UserStatus.WITHDRAW}">&nbsp;&nbsp;&nbsp;탈퇴</label>
+                                    <label class="margin-right-10" for="userStatus_Rejected" style="font-weight: normal;"><input type="radio" name="userStatus" id="userStatus_Rejected" value="INACTIVE" th:checked="${condition.userStatus eq UserStatus.INACTIVE}">&nbsp;&nbsp;&nbsp;비활성화</label> &nbsp;
+                                </div>
+                            </div>
+                            <div class="col-12 display-flex-row line">
+                                <div class="col-8"></div>
+                                <div class="col-4">
+                                    <div class="col-12">
+                                        <button type="button" id="btnReset" class="btn btn-sm btn-success float-right"><i class="fa fa-refresh"></i>
+                                            초기화
+                                        </button>
+                                        <button type="submit" class="btn btn-sm btn-default float-right" style="margin-right: 5px;">
+                                            <i class="fa fa-search"></i> 검색
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="card" style="border-left: 5px solid #117a8b;">
+                        <div class="card-header">
+                            <h4 class="card-title">총</h4>(&nbsp;<span>[[${pages.totalElements}]]</span>개&nbsp;)
+                            <div class="card-tools float-right">
+                                <select class="form-control" id="limit">
+                                    <option value="10" th:selected="${condition.size} == 10 ? selected ">10개</option>
+                                    <option value="20" th:selected="${condition.size} == 20 ? selected ">20개</option>
+                                    <option value="30" th:selected="${condition.size} == 30 ? selected ">30개</option>
+                                    <option value="50" th:selected="${condition.size} == 50 ? selected ">50개</option>
+                                    <option value="100" th:selected="${condition.size} == 100 ? selected ">100개</option>
+                                    <option value="300" th:selected="${condition.size} == 300 ? selected ">300개</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <table class="table table-striped projects">
+                                <thead>
+                                <tr>
+                                    <th style="width: 5%;">
+                                        <label class="margin-bottom-0">
+                                            <input type="checkbox" class="checkElement chkAll" name="checkAll" th:data-children="numbers">
+                                        </label>
+                                    </th>
+                                    <th style="width: 25%;">이메일</th>
+                                    <th style="width: 15%;">닉네임</th>
+                                    <th style="width: 15%;">상태</th>
+                                    <th style="width: 20%;">가입일</th>
+                                    <th style="width: 20%;">최종방문일</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:if="${not #lists.isEmpty(pages.content)}" th:each="item, status : ${pages.content}">
+                                    <td>
+                                        <label class="margin-bottom-0">
+                                            <input type="checkbox" class="checkElement chkAll" name="numbers" th:value="${item.id}">
+                                        </label>
+                                    </td>
+                                    <td>
+                                        <a th:href="|/members/${item.id}/edit|" th:text="${item.username}"></a>
+                                    </td>
+                                    <td th:text="${item.nickname}"></td>
+                                    <td th:text="${item.status.description}"></td>
+                                    <td th:text="${not #strings.isEmpty(item.joinedAt)} ? ${#temporals.format(item.joinedAt, 'YYYY-MM-dd HH:mm:ss')} : '-'"></td>
+                                    <td th:text="${not #strings.isEmpty(item.lastLoginAt)} ? ${#temporals.format(item.lastLoginAt, 'YYYY-MM-dd HH:mm:ss')} : '-'"></td>
+                                </tr>
+                                <tr th:unless="${not #lists.isEmpty(pages.content)}">
+                                    <td class="text-center" colspan="6">가입한 회원이 없습니다.</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="text-center">
+                                    <!-- 페이징 -->
+                                    <div th:replace="layout/utilFragments::adminPagination(${pages})"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+<section layout:fragment="script">
+    <script th:inline="javascript">
+    </script>
+    <script src="/static/js/member/member_list.js" th:src="@{/js/member/member_list.js}"></script>
+</section>
+</body>
+</html>

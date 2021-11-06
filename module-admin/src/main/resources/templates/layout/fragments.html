@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+>
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div th:remove="tag" th:fragment="jQuery-validation">
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/additional-methods.min.js"></script>
+</div>
+
+<script type="application/javascript" th:inline="javascript" th:fragment="category">
+    let categoryMap = new Map([]);
+
+    // Reference https://huskdoll.tistory.com/497
+    $(function () {
+        // console.log(categories);
+        if (categories.length > 0) {
+            const firstSelect = document.getElementById("firstCategory");
+            const secondSelect = document.getElementById("categoryName");
+            initSelect(firstSelect);
+            initSelect(secondSelect);
+
+            for (let c of categories) {
+                let id = c.id;
+                let name = c.name;
+                addOption(firstSelect, id, name);
+                let arr = [];
+                if (c.child.length > 0) {
+                    for (let child of c.child) {
+                        let childId = child.id;
+                        let childName = child.name;
+
+                        // put map ["parentId", {id : 1, nane : '영어'}]
+                        let obj = {
+                            id : childId,
+                            name : childName
+                        };
+                        arr.push(obj)
+                    }
+                    categoryMap.set(id.toString(), arr);
+                }
+            }
+        }
+    });
+
+    const initSelect = function (select) {
+        removeChild(select);
+        setDefaultOption(select);
+    }
+
+    // 모든 자식 삭제
+    const removeChild = function (select) {
+        while (select.firstChild) {
+            select.removeChild(select.firstChild);
+        }
+    }
+
+    // No value 선택하세요  init
+    const setDefaultOption = function (select) {
+        let opt = document.createElement("option");
+        opt.value = "";
+        opt.innerHTML = "선택하세요.";
+        select.appendChild(opt);
+    }
+
+    // select 에 option 추가
+    const addOption = function (select, id, name) {
+        let opt = document.createElement("option");
+        opt.value = id.toString();
+        opt.innerHTML = name;
+        select.appendChild(opt);
+    }
+
+    // id를 넘기면 map에서 id를 찾아서 리턴
+    const getChildValues = function (id) {
+        return categoryMap.get(id);
+    }
+
+    $("#firstCategory").on("change", function (e) {
+        if (e) {
+            e.preventDefault();
+        }
+
+        const secondSelect = document.getElementById("categoryName");
+        initSelect(secondSelect);
+
+        let value = this.options[this.selectedIndex].value;
+        let childValues = getChildValues(value);
+        for (let cv of childValues) {
+            addOption(secondSelect, cv.id, cv.name);
+            secondSelect.removeAttribute('disabled');
+        }
+    });
+</script>
+
+</body>
+</html>

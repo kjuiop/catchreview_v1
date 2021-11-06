@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="~{layout}">
+<body>
+<div layout:fragment="content" th:with="YNType = ${T(io.gig.catchreview.core.domain.common.types.YnType)}">
+    <div class="content">
+        <div class="container-fluid">
+            <!--      <button id="btnCity" class="btn btn-default">Zone</button>-->
+        </div>
+    </div>
+</div>
+<section layout:fragment="script">
+    <script src="/static/js/common/city.js" th:src="@{/js/common/city.js}"></script>
+    <script>
+        // var param = {
+        //   city: city,
+        //   town: town
+        // }
+        // console.log("param", param);
+        //
+        // $('#btnCity').on('click', function(idx){
+        //
+        //   $.ajax({
+        //     url: "/init-zone",
+        //     method: "post",
+        //     type: "json",
+        //     contentType: "application/json",
+        //     data: JSON.stringify(param),
+        //     success: function (result) {
+        //     },
+        //     error:function(){
+        //       twoBtnModal("다시 시도해주세요.");
+        //     }
+        //   });
+        // });
+    </script>
+</section>
+</body>
+</html>

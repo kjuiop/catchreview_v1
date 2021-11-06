@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="~{layout}">
+<link rel="stylesheet" type="text/css" href="/css/settings/menu/menu-manager.css">
+<body>
+<div layout:fragment="content">
+  <div th:replace="layout/utilFragments::navigator('/setting/menu-manager', '메뉴', '메뉴 관리')"></div>
+  <section class="content" th:with="URL = ${#httpServletRequest.requestURI}">
+    <div class="row">
+      <div class="col-sm-5 col-md-3">
+        <div class="card card-primary">
+          <div class="card-header with-border" style="background-color: #17a2b8;">
+            <h3 class="card-title">Menu Tree</h3>
+          </div>
+          <div class="card-body">
+            <!-- Sidebar -->
+            <div class="sidebar" th:with="UrlArray = ${#strings.arraySplit(URL, '/')}">
+
+
+              <!-- Sidebar Menu -->
+              <nav class="mt-2">
+                <ul class="nav nav-pills nav-sidebar flex-column menu-tree-panel" data-widget="treeview" role="menu" th:with="path = ${UrlArray.length > 0 ? '/' + UrlArray[0] : ''}">
+                  <th:block th:if="${not #lists.isEmpty(menus)}" th:each="side: ${menus}"
+                            th:with="classValue = ${path == side.url ? 'active' : ''}">
+                    <input type="hidden" th:value="${side.url}" />
+                    <li class="nav-item menu-open" th:classappend="${not #lists.isEmpty(side.children) ? classValue + ' has-treeview' : classValue}">
+                      <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                          <a class="nav-link" href="#" th:menuId="${side.id}">
+                            <i th:class="${side.iconClass}"></i>
+                            <p th:text="${side.name}" style="padding-left: 10px;"></p>
+
+                            <span th:if="${not #lists.isEmpty(side.children)}" class="pull-right-container">
+                                                            <i class="fa fa-angle-left pull-right"></i>
+                                                        </span>
+                          </a>
+                          <ul th:if="${not #lists.isEmpty(side.children)}" class="nav nav-treeview">
+                            <li class="nav-item"
+                                th:each="child: ${side.children}"
+                                th:classappend="${#httpServletRequest.requestURI == child.url ? 'active' : ''}"
+                                style="padding-left: 20px;">
+                              <input type="hidden" th:value="${child.url}" />
+                              <a class="nav-link" href="#" th:menuId="${child.id}" style="padding-left: 10px; font-size: 15px;">
+                                <i th:class="${child.iconClass}"></i>
+                                <p th:text="${child.name}" style="padding-left: 5px;"></p>
+                              </a>
+                            </li>
+                          </ul>
+                        </li>
+                      </ul>
+                    </li>
+                  </th:block>
+                </ul>
+              </nav>
+            </div>
+            <button class="btn btn-default btn-block btn-new-menu" style="background-color: #17a2b8; color: white;">
+              <b>create..</b>
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-7 col-md-9">
+        <div class="card card-primary">
+          <div class="card-header with-border" style="background-color: #17a2b8;">
+            <h3 class="card-title" id="panel-title">Information</h3>
+          </div>
+          <div class="card-body col-md-12">
+            <!-- form start -->
+            <form class="form-horizontal menu-detail-panel needs-validation" name="frmRegister"
+                  th:action="@{/settings/menu-manager/ajax/save}" method="post" novalidate>
+              <input type="hidden" id="id" name="id" />
+              <input type="hidden" id="parentId" name="parentId" />
+              <input type="hidden" id="menuType" name="menuType" value="AdminConsole" />
+              <div class="display-flex-row line">
+                <label for="name" class="col-sm-2 control-label">Title</label>
+                <div class="col-sm-10">
+                  <input type="text" name="name"
+                         class="form-control menu-disabled" id="name" placeholder="Title" required>
+                </div>
+              </div>
+
+              <div class="display-flex-row" style="margin-bottom: 20px;">
+                <label for="url" class="col-sm-2 control-label">URL</label>
+                <div class="col-sm-10">
+                  <div class="input-group">
+                    <span class="btn btn-default" id="parentUrl" style="background-color: #ffffff; color: black; padding-left: 15px; padding-right: 15px;">/</span>
+                    <input type="text" name="url" class="form-control menu-disabled" id="url" placeholder="URL" required>
+                  </div>
+                </div>
+              </div>
+
+              <div class="display-flex-row line">
+                <label for="icon" class="col-sm-2 control-label">Icon</label>
+                <div class="col-sm-9">
+                  <input type="text" class="form-control menu-disabled" id="icon" placeholder="fa fa-circle-o" name="iconClass">
+                </div>
+                <div class="col-sm-1">
+                  <a class="btn btn-info" target="_blank"
+                     href="https://adminlte.io/themes/AdminLTE/pages/UI/icons.html"><i
+                          class="fa fa-fw fa-question"></i></a>
+                </div>
+              </div>
+
+              <div class="display-flex-row line">
+                <label for="sortOrder" class="col-sm-2 control-label">Sort Number</label>
+                <div class="col-sm-10">
+                  <input type="text" class="form-control menu-disabled" id="sortOrder" name="sortOrder">
+                </div>
+              </div>
+
+              <div class="form-group display-flex-column">
+                <div class="display-flex-row line col-12">
+                  <label class="col-sm-2 control-label">Role</label>
+                  <div class="col-md-3">
+                    <label class="text-center" style="width: 100%; font-weight: normal;">Inactive Roles</label>
+                    <select multiple="" class="form-control menu-disabled" style="height: 82px;"
+                            id="exclude-role">
+                      <option th:value="${r.name}" th:each="r: ${roles}">
+                        [[${r.description}]]
+                      </option>
+                    </select>
+                  </div>
+                  <div class="col-md-1">
+                    <div style="display:flex;align-items: center;justify-content: center;height: 120px">
+                      <div class="btn-group-vertical align-middle">
+                        <button type="button" class="btn btn-info menu-disabled" id="btn-include-role"><i
+                                class="fa fa-caret-right"></i></button>
+                        <button type="button" class="btn btn-danger menu-disabled" id="btn-exclude-role"><i
+                                class="fa fa-caret-left"></i></button>
+
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-3">
+                    <label class="text-center" style="width: 100%; font-weight: normal;">Active Roles</label>
+                    <select multiple="" class="form-control menu-disabled" style="height: 82px;"
+                            id="include-role">
+                      <option th:value="${r.name}" th:each="r, status : ${roles}"
+                              style="display: none">[[${r.description}]]
+                      </option>
+                    </select>
+                  </div>
+                </div>
+                <div class="display-flex-row col-12">
+                  <div class="col-2"></div>
+                  <div class="col-10">
+                    <span id="roleNames"></span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="display-flex-row line">
+                <label class="col-sm-2 control-label">Active/Inactive</label>
+                <div class="col-sm-5 col-lg-2">
+                  <div class="radio">
+                    <label style="font-weight: normal;">
+                      <input type="radio" class="menu-disabled" name="activeYn" id="active"
+                             value="Y" checked="">
+                      Active
+                    </label>
+                  </div>
+                </div>
+                <div class="col-sm-5 col-lg-2">
+                  <div class="radio">
+                    <label style="font-weight: normal;">
+                      <input type="radio" class="menu-disabled" name="activeYn" id="inactive"
+                             value="N">
+                      Inactive
+                    </label>
+                  </div>
+                </div>
+              </div>
+
+              <div class="display-flex-row line">
+                <label class="col-sm-2 control-label">Display</label>
+                <div class="col-sm-5 col-lg-2">
+                  <div class="radio">
+                    <label style="font-weight: normal;">
+                      <input type="radio" class="menu-disabled" name="displayYn" id="chkShow"
+                             value="Y" checked="">
+                      Show
+                    </label>
+                  </div>
+                </div>
+                <div class="col-sm-5 col-lg-2">
+                  <div class="radio">
+                    <label style="font-weight: normal;">
+                      <input type="radio" class="menu-disabled" name="displayYn" id="chkHide"
+                             value="N">
+                      Hide
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+
+
+          <div class="card-footer">
+            <button type="button" class="btn btn-info pull-right btn-save">저장</button>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+<section layout:fragment="script">
+  <script th:inline="javascript">
+
+  </script>
+  <script src="/static/js/settings/menu/menu-manager.js" th:src="@{/js/settings/menu/menu-manager.js}"></script>
+</section>
+</body>
+</html>

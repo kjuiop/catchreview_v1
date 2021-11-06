@@ -54,18 +54,21 @@
 <body>
 <div layout:fragment="content">
     <main class="form-signin mt-5">
-        <form>
+        <form class="needs-validation col-lg-4 form-signin" th:action="@{/login}" method="post" novalidate>
             <div class="text-center">
                 <img class="mb-4" src="/images/star_logo.png" alt="" width="72" height="57">
             </div>
             <h1 class="h3 mb-3 fw-normal text-center">로그인</h1>
 
+            <div th:if="${!#strings.isEmpty(message)}" th:utext="${message}" class="alert alert-info" role="alert"></div>
+            <div th:if="${!#strings.isEmpty(authError)}" th:utext="${authError}" class="alert alert-danger" role="alert"></div>
+
             <div class="form-floating">
-                <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com">
+                <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com" name="username">
                 <label for="floatingInput">이메일</label>
             </div>
             <div class="form-floating">
-                <input type="password" class="form-control" id="floatingPassword" placeholder="Password">
+                <input type="password" class="form-control" id="floatingPassword" placeholder="Password" name="password">
                 <label for="floatingPassword">비밀번호</label>
             </div>
             <div class="checkbox mb-3">
@@ -82,9 +85,10 @@
                     <a href="#" th:href="@{/forgot-password}" class="text-decoration-none">비밀번호 찾기</a>
                 </small>
             </div>
-            <p class="mt-5 mb-3 text-muted text-center">Gig Company © 2021</p>
+            <p class="mt-5 mb-3 text-muted text-center">CatchReview Company © 2021</p>
         </form>
     </main>
+    <script th:replace="layout/fragments :: form-validation"></script>
 </div>
 <section layout:fragment="script">
 </section>

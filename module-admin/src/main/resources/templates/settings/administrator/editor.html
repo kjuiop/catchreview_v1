@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorator="~{layout}">
+<body>
+<div layout:fragment="content" th:with="UserStatus = ${T(io.gig.catchreview.core.domain.user.UserStatus)}">
+    <section class="content" th:with="isModify = ${dto.adminId != null}">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12">
+                    <form id="frmRegister" class="form-horizontal" name="frmRegister" method="post" th:object="${dto}">
+                        <input type="hidden" id="adminId" name="adminId" th:field="*{adminId}" />
+                        <input type="hidden" id="emailCheckYn" />
+                        <input type="hidden" id="pwValidCheckYn" />
+                        <input type="hidden" id="pwEqualCheckYn" />
+                        <div class="card" style="margin-top: 10px;">
+                            <div class="card-header">
+                                <h3 class="card-title">관리자정보</h3>
+                                <div class="card-tools">
+                                    <button type="button" class="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip" title="Collapse">
+                                        <i class="fa fa-minus"></i></button>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="form-group col-12 display-flex-row checkDuplicate">
+                                    <div class="col-2">
+                                        <label for="username">이메일</label>
+                                    </div>
+                                    <div class="col-6 display-flex-column">
+                                        <input type="text" id="username" class="form-control valid-fields" name="username" placeholder="이메일을 입력해주세요."
+                                               th:field="*{username}" th:readonly="${isModify}" required>
+                                    </div>
+                                    <div class="col-4"></div>
+                                </div>
+                                <div class="form-group col-12 display-flex-row">
+                                    <div class="col-2">
+                                        <label for="name">이름</label>
+                                    </div>
+                                    <div class="col-6">
+                                        <input type="text" id="name" class="form-control valid-fields" name="name" placeholder="이름을 입력해주세요."
+                                               th:field="*{name}" th:readonly="${isModify}" autocomplete="off" required>
+                                    </div>
+                                    <div class="col-4"></div>
+                                </div>
+                                <div class="form-group col-12 display-flex-row">
+                                    <div class="col-2">
+                                        <label for="password">비밀번호</label>
+                                    </div>
+                                    <div class="col-6 display-flex-column">
+                                        <input id="password" type="password" class="form-control valid-fields" name="password" placeholder="비밀번호를 입력해주세요.">
+                                    </div>
+                                    <div class="col-4"></div>
+                                </div>
+                                <div class="form-group col-12 display-flex-row">
+                                    <div class="col-2">
+                                        <label for="confirmPassword">비밀번호 확인</label>
+                                    </div>
+                                    <div class="col-6 display-flex-column">
+                                        <input id="confirmPassword" type="password" class="form-control valid-fields" name="confirmPassword" placeholder="비밀번호를 다시 입력해주세요.">
+                                    </div>
+                                    <div class="col-4"></div>
+                                </div>
+                                <div class="form-group col-12 display-flex-row">
+                                    <div class="col-2">
+                                        <label for="userStatus_Pending">상태</label>
+                                    </div>
+                                    <div class="col-10">
+                                        <label class="radio-label" style="font-weight: normal;">
+                                            <input type="radio" id="userStatus_Pending" name="status" value="PENDING" th:checked="${dto.status eq UserStatus.PENDING}">
+                                            <label class="radio-label" style="font-weight: normal;">보류</label>
+                                        </label>
+                                        <label class="radio-label" style="font-weight: normal;">
+                                            <input type="radio" id="userStatus_Normal" name="status" value="NORMAL" th:checked="${dto.status eq UserStatus.NORMAL}">
+                                            <label class="radio-label" style="font-weight: normal;">정상</label>
+                                        </label>
+                                        <label class="radio-label" style="font-weight: normal;">
+                                            <input type="radio" id="userStatus_Withdraw" name="status" value="WITHDRAW" th:checked="${dto.status eq UserStatus.WITHDRAW}">
+                                            <label class="radio-label" style="font-weight: normal;">탈퇴</label>
+                                        </label>
+                                        <label class="radio-label" style="font-weight: normal;">
+                                            <input type="radio" id="userStatus_Rejected" name="status" value="INACTIVE" th:checked="${dto.status eq UserStatus.INACTIVE}">
+                                            <label class="radio-label" style="font-weight: normal;">비활성</label>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="form-group display-flex-column" sec:authorize="hasRole('SUPER_ADMIN')">
+                                    <div class="col-12 display-flex-row">
+                                        <label class="col-2 control-label">역할</label>
+                                        <div class="col-3">
+                                            <label class="text-center" style="width: 100%">비활성 역할</label>
+                                            <select multiple="" class="form-control valid-ignore" style="height: 82px;"
+                                                    id="exclude-role">
+                                                <option th:value="${r.name}" th:each="r: ${roles}">
+                                                    [[${r.description}]]
+                                                </option>
+                                            </select>
+                                        </div>
+                                        <div class="col-1">
+                                            <div style="display:flex;align-items: center;justify-content: center;height: 120px">
+                                                <div class="btn-group-vertical align-middle">
+                                                    <button type="button" class="btn btn-info" id="btn-include-role"><i
+                                                            class="fa fa-caret-right"></i></button>
+                                                    <button type="button" class="btn btn-danger" id="btn-exclude-role"><i
+                                                            class="fa fa-caret-left"></i></button>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-3">
+                                            <label class="text-center" style="width: 100%">활성된 역할</label>
+                                            <select multiple="" class="form-control valid-ignore" style="height: 82px;"
+                                                    id="include-role">
+                                                <option th:value="${r.name}" th:each="r, status : ${roles}"
+                                                        style="display: none">[[${r.description}]]
+                                                </option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="display-flex-row col-12">
+                                        <div class="col-2"></div>
+                                        <div class="col-10">
+                                            <span id="roleNames"></span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-12" style="padding: 20px; margin-top: 10px;">
+                                    <button type="submit" class="btn btn-sm btn-default float-right" style="background-color: #117a8b; color: #ffffff; margin-right: 5px; margin-bottom: 20px;"><i class="fa fa-plus"></i> 저장</button>
+                                    <a href="/settings/admin-manager" class="btn btn-default btn-sm float-right" style="margin-right: 5px; margin-bottom: 20px;"> 목록</a>
+                                </div>
+                            </div>
+                            <!-- /.card-body -->
+                        </div>
+                        <!-- /.card -->
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+<section layout:fragment="script">
+    <script type="text/javascript" th:inline="javascript">
+        /*<![CDATA[*/
+        var dto =/*[[${dto}]]*/'';
+        /*]]>*/
+    </script>
+    <script th:replace="layout/fragments :: jQuery-validation"></script>
+    <script src="/static/js/settings/administrator/administrator_editor.js" th:src="@{/js/settings/administrator/administrator_editor.js}"></script>
+</section>
+</body>
+</html>

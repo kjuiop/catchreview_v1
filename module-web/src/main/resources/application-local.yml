@@ -38,7 +38,7 @@ spring:
   mail:
     host: smtp.gmail.com
     port: 587
-    username: groovee.io@gmail.com
+    username: catchreview.io@gmail.com
     password: dwtgcolpmveziimv
     properties:
       mail:

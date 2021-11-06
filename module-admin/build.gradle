@@ -2,18 +2,17 @@ plugins {
     id 'java'
 }
 
-group 'com.gig'
-version '1.0-SNAPSHOT'
+group 'io.gig'
+version '0.0.1-SNAPSHOT'
+
+bootJar {
+    enabled = true
+}
 
 repositories {
     mavenCentral()
 }
 
 dependencies {
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
-}
-
-test {
-    useJUnitPlatform()
+    implementation project(":module-core")
 }

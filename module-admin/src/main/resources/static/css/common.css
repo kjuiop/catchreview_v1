@@ -1,0 +1,98 @@
+.display-flex-row {
+    display: flex;
+    flex-direction: row;
+}
+
+.display-flex-column {
+    display: flex;
+    flex-direction: column;
+}
+
+.no-padding {
+    padding: 0px;
+}
+
+.no-left-padding {
+    padding-left: 0;
+}
+
+.line {
+    margin-bottom: 15px;
+}
+
+.hidden {
+    visibility: hidden;
+}
+
+.radio-label {
+    padding-left: 0;
+    font-size: 14px;
+    margin-right: 10px;
+}
+
+.image-panel img {
+    width:100%;
+    height:100%;
+}
+
+.image-panel {
+    width:220px;
+    height:220px;
+    position: relative;
+}
+
+.image-panel span {
+    vertical-align: center;
+}
+
+.image-panel .remove-video {
+    width: 25px;
+    height: 25px;
+    position: absolute;
+    top:0px;
+    right: 0px;
+    padding: 0px;
+}
+
+.image-panel .remove-image {
+    width: 30px;
+    height: 30px;
+    position: absolute;
+    top:0px;
+    right: 0px;
+    padding: 0px;
+}
+
+.image-panel .update-image {
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    right: 31px;
+    top: 0px;
+    padding: 0px;
+    z-index: 1000;
+}
+
+.image-panel .update-image i {
+    font-size: 15px;
+}
+
+.image-panel .remove-image i {
+    font-size: 15px;
+}
+
+.font-normal {
+    font-weight: normal;
+}
+
+.margin-bottom-0 {
+    margin-bottom: 0;
+}
+
+.margin-right-10 {
+    margin-right: 10px;
+}
+
+.hidden {
+    display: none!important
+}

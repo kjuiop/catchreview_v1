@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="_csrf" th:content="${_csrf.token}"/>
+  <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+
+  <title>CatchReview</title>
+
+  <link href="https://fonts.googleapis.com/css?family=Noto+Sans+KR:300,400,500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="/node_modules/icheck-bootstrap/icheck-bootstrap.min.css" />
+  <link rel="stylesheet" type="text/css" href="/node_modules/bootstrap/dist/css/bootstrap.min.css" />
+  <link rel="stylesheet" type="text/css" href="/node_modules/bootstrap-daterangepicker/daterangepicker.css">
+  <link rel="stylesheet" type="text/css" href="/node_modules/font-awesome/css/font-awesome.min.css" />
+  <link rel="stylesheet" type="text/css" href="/node_modules/@yaireo/tagify/dist/tagify.css" />
+  <link rel="stylesheet" type="text/css" href="/node_modules/summernote/dist/summernote-bs4.min.css" />
+  <link rel="stylesheet" type="text/css" href="/node_modules/admin-lte/dist/css/adminlte.css">
+  <link rel="stylesheet" type="text/css" href="/node_modules/icheck/skins/all.css">
+
+
+  <link rel="stylesheet" href="/css/common.css" />
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+  <link rel="manifest" href="/images/site.webmanifest">
+</head>
+<body>
+<div class="wrapper">
+  <div th:replace="layout/top.html :: header"></div>
+  <div th:replace="layout/left.html :: left"></div>
+  <div class="content-wrapper">
+    <div layout:fragment="content" th:remove="tag"></div>
+  </div>
+
+  <footer class="main-footer">
+    <strong>Copyright © 2021 <a href="#">Catchreview Company</a>.</strong> All rights reserved.
+  </footer>
+</div>
+<div class="modal fade show" id="commonModal" aria-modal="true" style="padding-right: 17px; display: none;">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 id="commonModalTitle" class="modal-title">Alert</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div id="commonModalContent"></div>
+      </div>
+      <div class="modal-footer justify-content-between">
+        <button type="button" class="btn btn-default commonModalClose" data-dismiss="modal">Close</button>
+        <button type="button" id="commonModalConfirm" class="btn btn-primary float-right">Save</button>
+      </div>
+    </div>
+    <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+</div>
+
+<script src="/node_modules/jquery/dist/jquery.min.js"></script>
+<script src="/node_modules/jquery-form/dist/jquery.form.min.js"></script>
+<script src="/custom-modules/bpopup/jquery.bpopup.min.js"></script>
+
+<script src="/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<script src="/node_modules/jdenticon/dist/jdenticon.min.js"></script>
+<script src="/node_modules/admin-lte/dist/js/adminlte.min.js"></script>
+<script src="/node_modules/bootstrap-daterangepicker/moment.min.js"></script>
+<script src="/node_modules/bootstrap-daterangepicker/daterangepicker.js"></script>
+<script src="/node_modules/js-sha512/src/sha512.js"></script>
+<script src="/node_modules/icheck/icheck.min.js"></script>
+<script src="/node_modules/moment/min/moment-with-locales.min.js"></script>
+
+<script src="/js/common/spin.js"></script>
+<script src="/js/common/attachment.js"></script>
+<script src="/js/common/modal.js"></script>
+<script src="/js/common/util.js"></script>
+<script src="/js/common/validate-common.js"></script>
+
+
+<script>
+
+  var csrfToken = $("meta[name='_csrf']").attr("content");
+  var csrfHeader = $("meta[name='_csrf_header']").attr("content");
+
+  $.ajaxSetup({
+    dataType: "json",
+    beforeSend: function() {
+      $("body").spin("modal");
+    },
+    complete: function() {
+      $("body").spin("modal");
+    },
+    error: function(jqxhr, textStatus, errorThrown) {
+    }
+  });
+
+  $(document).ajaxSend(function(e, xhr, options) {
+    xhr.setRequestHeader(csrfHeader, csrfToken);
+  });
+
+  $(function() {
+    initICheck();
+  });
+
+  var initICheck = function() {
+    $('input[type="checkbox"], input[type="radio"]').iCheck({
+      checkboxClass: 'icheckbox_square-blue',
+      radioClass: 'iradio_flat-blue'
+    });
+  };
+</script>
+<section layout:fragment="script">
+</section>
+</body>
+</html>

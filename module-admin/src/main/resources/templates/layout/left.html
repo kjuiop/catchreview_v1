@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="~{layout}">
+<body>
+<div th:fragment="left">
+    <!-- Main Sidebar Container -->
+    <aside class="main-sidebar sidebar-dark-primary elevation-4" th:with="URL = ${#httpServletRequest.requestURI}">
+        <!-- Brand Logo -->
+        <a href="/" class="brand-link logo-switch">
+            <img src="/node_modules/admin-lte/dist/img/AdminLTELogo.png" alt="AdminLTE Docs Logo Small" class="brand-image-xl logo-xs">
+            <img src="/node_modules/admin-lte/dist/img/AdminLTELogo.png" alt="AdminLTE Docs Logo Large" class="brand-image-xs logo-xl" style="left: 20px">
+            <span style="position : absolute; left: 62px;">CatchReview</span>
+        </a>
+
+
+        <!-- Sidebar -->
+        <div class="sidebar" th:with="UrlArray = ${#strings.arraySplit(URL, '/')}">
+
+
+            <!-- Sidebar Menu -->
+            <nav class="mt-2">
+                <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" th:with="path = ${UrlArray.length > 0 ? '/' + UrlArray[0] : ''}">
+                    <th:block th:if="${not #lists.isEmpty(menus)}" th:each="side: ${menus}"
+                              th:with="classValue = ${path == side.url ? 'active' : ''}">
+                        <input type="hidden" th:value="${side.url}" />
+                        <li class="nav-item menu-open" th:classappend="${not #lists.isEmpty(side.children) ? classValue + ' has-treeview' : classValue}">
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item" th:classappend="${side.activeClass eq 'active' ? 'menu-open' : ''}">
+                                    <a class="nav-link" th:href="${#lists.isEmpty(side.children) ? side.url : '#'}">
+                                        <i th:class="${side.iconClass}"></i>
+                                        <p th:text="${side.name}" style="padding-left: 10px;"></p>
+
+                                        <span th:if="${not #lists.isEmpty(side.children)}" class="pull-right-container">
+                                            <i class="fa fa-angle-left pull-right"></i>
+                                        </span>
+                                    </a>
+                                    <ul th:if="${not #lists.isEmpty(side.children)}" class="nav nav-treeview">
+                                        <li class="nav-item"
+                                            th:each="child: ${side.children}">
+                                            <input type="hidden" th:value="${child.url}" />
+                                            <a class="nav-link" th:href="${child.url}" th:classappend="${#httpServletRequest.requestURI == child.url ? child.activeClass : ''}">
+                                                <i class="fa fa-circle-o"></i>
+                                                <p th:text="${child.name}" style="padding-left: 10px;"></p>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                    </th:block>
+                </ul>
+            </nav>
+            <!-- /.sidebar-menu -->
+        </div>
+        <!-- /.sidebar -->
+    </aside>
+</div>
+</body>
+</html>

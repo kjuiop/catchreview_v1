@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org">
+<body>
+<div th:fragment="navigator(oneStepUrl, oneStepName, twoStepName)">
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6"></div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="/"><i class="fa fa-home"></i> 홈</a></li>
+                        <li class="breadcrumb-item" th:classappend="${twoStepName == null ? 'active' : ''}"><a th:href="${oneStepUrl}">[[${oneStepName}]]</a></li>
+                        <th:block th:if="${twoStepName != null}">
+                            <li class="breadcrumb-item active">[[${twoStepName}]]</li>
+                        </th:block>
+                    </ol>
+                </div>
+            </div>
+        </div><!-- /.container-fluid -->
+    </section>
+</div>
+<div th:fragment="attachment">
+    <form name="frmUpload" class="hidden" enctype="multipart/form-data" method="post" action="/attachment/upload">
+        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" >
+        <input type="file" id="file" name="file" />
+        <input type="file" multiple="multiple" id="files" name="files[]" />
+    </form>
+</div>
+
+<!-- Admin-console -->
+<div th:fragment="adminPagination(pages)">
+    <div class="display-flex-row">
+        <div style="margin: 0 auto;">
+            <div class="dataTables_paginate paging_simple_numbers">
+                <ul class="pagination" th:unless="${pages.totalPages eq 0}" th:with="pageStartNum = ${(pages.number/5)*5}, pageEndNum = ${pageStartNum+(5-1)}">
+                    <li class="paginate_button page-item previous" th:classappend="${pages.number == 0 ? 'disabled' : ''}">
+                        <a class="page-link" th:href="${pages.number == 0 ? '#none' : 'javascript:pagination('+(0)+')'}"
+                           aria-label='Previous'>
+                            <span aria-hidden='true'>&#60;&#60;</span>
+                        </a>
+                    </li>
+                    <li class="paginate_button page-item" th:classappend="${pages.number == 0 ? 'disabled' : ''}">
+                        <a class="page-link" th:href="${pages.number == 0 ? '#none' : 'javascript:pagination('+(pages.number-1)+')'}"
+                           aria-label='Previous'>
+                            <span aria-hidden='true'>&#60;</span>
+                        </a>
+                    </li>
+                    <li class="paginate_button page-item" th:each="no:${#numbers.sequence(pageStartNum, pages.totalPages <= pageEndNum ? pages.totalPages-1 : pageEndNum)}" th:classappend="${pages.number eq no}?'active':''">
+                        <a class="page-link" th:href="'javascript:pagination('+${no}+')'" th:inline="text">
+                            [[${no+1}]]
+                        </a>
+                    </li>
+                    <li class="paginate_button page-item" th:classappend="${pages.hasNext() and pages.totalPages > (pages.number+1) } ? '' : 'disabled'">
+                        <a class="page-link" th:href="${pages.hasNext() and pages.totalPages > (pages.number+1) ? 'javascript:pagination('+(pages.number+1)+')' : '#none'}"
+                           aria-label='Next'>
+                            <span aria-hidden='true'>&#62;</span>
+                        </a>
+                    </li>
+                    <li class="paginate_button page-item next" th:classappend="${pages.hasNext() and pages.totalPages > (pages.number+1) } ? '' : 'disabled'">
+                        <a class="page-link" th:href="${pages.hasNext() and pages.totalPages > (pages.number+1) ? 'javascript:pagination('+(pages.totalPages-1)+')' : '#none'}"
+                           aria-label='Next'>
+                            <span aria-hidden='true'>&#62;&#62;</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:fragment="admin-info(dto)">
+    <div class="form-group col-12 display-flex-row" th:if="${isModify}">
+        <div class="col-2">
+            <label>최종수정자</label>
+        </div>
+        <div class="col-4">
+            <span th:text="${dto.updatedByUsername}"></span>
+        </div>
+        <div class="col-2">
+            <label>최종수정일</label>
+        </div>
+        <div class="col-4">
+            <span>[[${#temporals.format(dto.updatedAt, 'YYYY-MM-dd HH:mm:ss')}]]</span>
+        </div>
+    </div>
+    <div class="form-group col-12 display-flex-row" th:if="${isModify}">
+        <div class="col-2">
+            <label>최초수정자</label>
+        </div>
+        <div class="col-4">
+            <span th:text="${dto.createdByUsername}"></span>
+        </div>
+        <div class="col-2">
+            <label>최초작성일</label>
+        </div>
+        <div class="col-4">
+            <span>[[${#temporals.format(dto.createdAt, 'YYYY-MM-dd HH:mm:ss')}]]</span>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

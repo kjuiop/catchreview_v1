@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="~{layout}">
+<body>
+<div layout:fragment="content" th:with="UserStatus = ${T(io.gig.catchreview.core.domain.user.UserStatus)}">
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12">
+                    <form id="frmRegister" class="form-horizontal" name="frmRegister" th:object="${dto}">
+                        <input type="hidden" name="username" th:field="*{username}">
+                        <div class="card" style="margin-top: 10px;">
+                            <div class="card-header">
+                                <h3 class="card-title">회원정보</h3>
+                                <div class="card-tools">
+                                    <button type="button" class="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip" title="Collapse">
+                                        <i class="fa fa-minus"></i></button>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="form-group col-12 display-flex-row">
+                                    <div class="col-2">
+                                        <label>프로필</label>
+                                    </div>
+                                    <div class="image-section col-10">
+                                        <img class="profile-user-img img-fluid img-circle" th:src="${dto.profile}" alt="User profile picture" th:if="${not #strings.isEmpty(dto.profile)}">
+                                    </div>
+                                </div>
+                                <div class="form-group col-12 display-flex-row checkDuplicate">
+                                    <div class="col-2">
+                                        <label>이메일</label>
+                                    </div>
+                                    <div class="col-4">
+                                        <span th:text="${dto.username}"></span>
+                                    </div>
+                                    <div class="col-6">
+                                        <button type="button" id="btnSendEmail" class="btn btn-sm btn-default">
+                                            인증 이메일 발송
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="form-group col-12 display-flex-row">
+                                    <div class="col-2">
+                                        <label>닉네임</label>
+                                    </div>
+                                    <div class="col-6">
+                                        <span th:text="${dto.nickname}"></span>
+                                    </div>
+                                    <div class="col-4"></div>
+                                </div>
+                                <div class="form-group col-12 display-flex-row">
+                                    <div class="col-2">
+                                        <label>패스워드</label>
+                                    </div>
+                                    <div class="col-10">
+                                        <div class="col-md-6 no-left-padding">
+                                            <button type="button" id="btnSendPassword" class="btn btn-sm btn-default">
+                                                초기화 메일 발송
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group col-12 display-flex-row">
+                                    <div class="col-2">
+                                        <label>가입유형</label>
+                                    </div>
+                                    <div class="col-md-10 radio">
+                                        <span>가입유형</span>
+                                    </div>
+                                </div>
+                                <div class="form-group col-12 display-flex-row">
+                                    <div class="col-2">
+                                        <label for="userStatus_Pending">상태</label>
+                                    </div>
+                                    <div class="col-10">
+                                        <label class="radio-label" style="font-weight: normal;">
+                                            <input type="radio" id="userStatus_Pending" name="status" value="PENDING" th:checked="${dto.status eq UserStatus.PENDING}">
+                                            <label class="radio-label" style="font-weight: normal;">보류</label>
+                                        </label>
+                                        <label class="radio-label" style="font-weight: normal;">
+                                            <input type="radio" id="userStatus_Normal" name="status" value="NORMAL" th:checked="${dto.status eq UserStatus.NORMAL}">
+                                            <label class="radio-label" style="font-weight: normal;">정상</label>
+                                        </label>
+                                        <label class="radio-label" style="font-weight: normal;">
+                                            <input type="radio" id="userStatus_Withdraw" name="status" value="WITHDRAW" th:checked="${dto.status eq UserStatus.WITHDRAW}">
+                                            <label class="radio-label" style="font-weight: normal;">탈퇴</label>
+                                        </label>
+                                        <label class="radio-label" style="font-weight: normal;">
+                                            <input type="radio" id="userStatus_Rejected" name="status" value="INACTIVE" th:checked="${dto.status eq UserStatus.INACTIVE}">
+                                            <label class="radio-label" style="font-weight: normal;">비활성</label>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="form-group col-12 display-flex-row">
+                                    <div class="col-2">
+                                        <label>최종방문일</label>
+                                    </div>
+                                    <div class="col-4">
+                                        <span th:text="${not #strings.isEmpty(dto.lastLoginAt)} ? ${#temporals.format(dto.lastLoginAt, 'YYYY-MM-dd HH:mm:ss')} : '-'"></span>
+                                    </div>
+                                    <div class="col-2">
+                                        <label>최초가입일</label>
+                                    </div>
+                                    <div class="col-4">
+                                        <span th:text="${not #strings.isEmpty(dto.joinedAt)} ? ${#temporals.format(dto.joinedAt, 'YYYY-MM-dd HH:mm:ss')} : '-'"></span>
+                                    </div>
+                                </div>
+                                <div class="col-12" style="padding: 20px; margin-top: 10px;">
+                                    <button type="button" id="btnModify" class="btn btn-sm btn-default float-right" style="background-color: #117a8b; color: #ffffff; margin-right: 5px; margin-bottom: 20px;"><i class="fa fa-plus"></i> 수정</button>
+                                    <a href="/members" class="btn btn-default btn-sm float-right" style="margin-right: 5px; margin-bottom: 20px;"> 목록</a>
+                                </div>
+                            </div>
+                            <!-- /.card-body -->
+                        </div>
+                        <!-- /.card -->
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+    <div th:replace="layout/utilFragments::attachment"></div>
+</div>
+<section layout:fragment="script">
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        var dto = /*[[${dto}]]*/'';
+        /*]]>*/
+    </script>
+    <script src="/static/js/member/member_editor.js" th:src="@{/js/member/member_editor.js}"></script>
+</section>
+</body>
+</html>
