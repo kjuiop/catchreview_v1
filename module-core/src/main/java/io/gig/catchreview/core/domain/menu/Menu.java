@@ -87,12 +87,12 @@ public class Menu extends BaseTimeEntity {
     private Set<Role> roles = new HashSet<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "created_by_id")
-    private Administrator createdBy;
+    @JoinColumn(name = "created_by_admin_id")
+    private Administrator createdByAdmin;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "updated_by_id")
-    private Administrator updatedBy;
+    @JoinColumn(name = "updated_by_admin_id")
+    private Administrator updatedByAdmin;
 
     public void addParent(Menu parent) {
         this.parent = parent;

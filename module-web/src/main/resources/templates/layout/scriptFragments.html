@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+<script type="application/javascript" th:fragment="form-validation">
+  (function () {
+    'use strict';
+
+    window.addEventListener('load', function () {
+      const forms = document.getElementsByClassName('needs-validation');
+
+      Array.prototype.filter.call(forms, function (form) {
+        form.addEventListener('submit', function (event) {
+          if (form.checkValidity() === false) {
+            event.preventDefault();
+            event.stopPropagation();
+          }
+          form.classList.add('was-validated')
+        }, false)
+      })
+    }, false)
+  }())
+</script>
+
+<script type="application/javascript" th:inline="javascript" th:fragment="dateRangePicker">
+  $(function () {
+    $(".rangeDatePicker").daterangepicker({
+      showDropdowns: true,
+      minDate: new Date(),
+      autoUpdateInput: false,
+      timePicker: true,
+      locale: {
+        applyLabel: '선택',
+        cancelLabel: '초기화',
+        format : "YYYY-MM-DD",
+        monthNames: ["1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"],
+        daysOfWeek: ['일', '월', '화', '수', '목', '금', '토'],
+      }
+    })
+  });
+  $(".rangeDatePicker").on('apply.daterangepicker', function(ev, picker) {
+    $("input[name='startDateTime']").val(picker.startDate.format('YYYY-MM-DD hh:mm'));
+    $("input[name='endDateTime']").val(picker.endDate.format('YYYY-MM-DD hh:mm'));
+    $(this).val(picker.startDate.format('YYYY-MM-DD hh:mm') + " ~ " + picker.endDate.format('YYYY-MM-DD hh:mm'));
+  });
+
+  $(".rangeDatePicker").on('cancel.daterangepicker', function(ev, picker) {
+    $(this).val('');
+    $("input[name='applicationStartDate']").val('');
+    $("input[name='applicationEndDate']").val('');
+  });
+</script>
+
+<div type="application/javascript" th:inline="javascript" th:fragment="tinyEditor" th:remove="tag">
+  <script src="/node_modules/tinymce/tinymce.js"></script>
+  <script src="/js/common/tinyMCE.js"></script>
+  <script type="application/javascript">
+    $(function() {
+      tinimceInit();
+    });
+  </script>
+</div>
+</body>
+</html>

@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
@@ -22,18 +24,53 @@
 </div>
 <div th:fragment="offcanvas" th:remove="tag">
     <div class="offcanvas offcanvas-end bg-dark text-white" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
-        <div class="offcanvas-header">
-            <h5 id="offcanvasRightLabel text-white fw-normal pl-3">로그인을 해주세요.</h5>
+        <form class="form-inline"
+              sec:authorize="isAuthenticated()" th:action="@{/logout}" name="frmLogout" method="post">
+        </form>
+        <div class="offcanvas-header p-4">
+            <h5 id="offcanvasRightLabel text-white fw-normal pl-3">
+                <span sec:authorize="!isAuthenticated()">로그인을 해주세요.</span>
+                <span sec:authorize="isAuthenticated()">[[${loginUser.nickname}]]님 환영합니다!</span>
+            </h5>
             <button type="button" class="btn-close text-reset text-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         </div>
         <div class="offcanvas-body">
-            <div class="container">
-                <div class="row">
-                    <div class="col-6 text-center">
-                        <a class="text-decoration-none text-white fw-normal" href="/login">로그인</a>
+            <div class="container" style="height: 100%;">
+                <div class="row p-1" style="height: 90%;">
+                    <div class="col-12">
+                        <div class="list-group p-2">
+                            <a class="text-decoration-none text-white fw-normal"
+                               href="/sign/apply"
+                               sec:authorize="isAuthenticated()"
+                            >포인트 충전하기</a>
+                        </div>
+                        <div class="list-group p-2">
+                            <a class="text-decoration-none text-white fw-normal"
+                               href="/sign/apply"
+                               sec:authorize="isAuthenticated()"
+                            >파트너 신청하기</a>
+                        </div>
                     </div>
-                    <div class="col-6 text-center">
-                        <a class="text-decoration-none text-white fw-normal" href="/sign-up">회원가입</a>
+                </div>
+                <div class="row p-1" style="height: 10%;">
+                    <div class="col-6 text-center align-self-center">
+                        <a class="text-decoration-none text-white fw-normal"
+                           href="/login"
+                           sec:authorize="!isAuthenticated()"
+                        >로그인</a>
+                        <a class="text-decoration-none text-white fw-normal"
+                           href="/mypage"
+                           sec:authorize="isAuthenticated()"
+                        >마이페이지</a>
+                    </div>
+                    <div class="col-6 text-center align-self-center">
+                        <a class="text-decoration-none text-white fw-normal"
+                           href="/sign-up"
+                           sec:authorize="!isAuthenticated()"
+                        >회원가입</a>
+                        <a class="text-decoration-none text-white fw-normal btnLogout"
+                           sec:authorize="isAuthenticated()"
+                        >로그아웃</a>
                     </div>
                 </div>
             </div>
@@ -42,25 +79,11 @@
 </div>
 <div th:fragment="footer" th:remove="tag">
 </div>
-
-<script type="application/javascript" th:fragment="form-validation">
-    (function () {
-        'use strict';
-
-        window.addEventListener('load', function () {
-            var forms = document.getElementsByClassName('needs-validation');
-
-            Array.prototype.filter.call(forms, function (form) {
-                form.addEventListener('submit', function (event) {
-                    if (form.checkValidity() === false) {
-                        event.preventDefault();
-                        event.stopPropagation();
-                    }
-                    form.classList.add('was-validated')
-                }, false)
-            })
-        }, false)
-    }())
-</script>
+<div th:fragment="attachment">
+    <form name="frmUpload" class="hidden" enctype="multipart/form-data" method="post" action="/attachment/upload">
+        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" >
+        <input type="file" id="file" name="file" />
+    </form>
+</div>
 </body>
 </html>
