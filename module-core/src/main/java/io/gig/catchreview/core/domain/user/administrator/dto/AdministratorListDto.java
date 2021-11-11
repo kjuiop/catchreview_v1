@@ -16,8 +16,8 @@ public class AdministratorListDto extends AdministratorDto {
 
     public AdministratorListDto(Administrator a) {
         super(a);
-        if (a.getCreatedBy() != null) {
-            this.createdByUsername = a.getCreatedBy().getUsername();
+        if (a.getCreatedByAdmin() != null) {
+            this.createdByUsername = a.getCreatedByAdmin().getUsername();
         }
     }
 }

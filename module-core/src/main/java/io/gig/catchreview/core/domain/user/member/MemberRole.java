@@ -1,10 +1,12 @@
 package io.gig.catchreview.core.domain.user.member;
 
+import io.gig.catchreview.core.domain.common.BaseTimeEntity;
 import io.gig.catchreview.core.domain.role.Role;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -14,10 +16,10 @@ import java.io.Serializable;
  * @date : 2021/08/09
  */
 @Entity
-@Getter @Builder
+@Getter @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
-public class MemberRole implements Serializable {
+public class MemberRole extends BaseTimeEntity implements Serializable {
 
     @Transient
     private static final long serialVersionUID = 1L;

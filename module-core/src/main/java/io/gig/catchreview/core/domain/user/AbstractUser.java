@@ -44,6 +44,8 @@ public abstract class AbstractUser extends BaseTimeEntity {
     @Column(columnDefinition = "varchar(1) default 'N'")
     private YnType isEmailValid;
 
+    private LocalDateTime lastModifiedPasswordAt;
+
     private LocalDateTime lastLoginAt;
 
     private LocalDateTime withDrawAt;

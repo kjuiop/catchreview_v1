@@ -1,5 +1,6 @@
 package io.gig.catchreview.core.domain.user.administrator;
 
+import io.gig.catchreview.core.domain.common.BaseTimeEntity;
 import io.gig.catchreview.core.domain.role.Role;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -8,6 +9,7 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,7 +22,10 @@ import java.util.List;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
-public class AdministratorRole {
+public class AdministratorRole extends BaseTimeEntity implements Serializable {
+
+    @Transient
+    private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

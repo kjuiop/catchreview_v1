@@ -1,4 +1,4 @@
-package io.gig.catchreview.core.domain.sign.types;
+package io.gig.catchreview.core.domain.mark.types;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public enum SignStatus {
+public enum MarkStatus {
 
     APPLY("Apply", "신청"),
 

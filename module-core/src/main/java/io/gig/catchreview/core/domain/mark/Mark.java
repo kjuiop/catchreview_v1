@@ -1,7 +1,7 @@
-package io.gig.catchreview.core.domain.sign;
+package io.gig.catchreview.core.domain.mark;
 
 import io.gig.catchreview.core.domain.common.BaseTimeEntity;
-import io.gig.catchreview.core.domain.sign.types.SignStatus;
+import io.gig.catchreview.core.domain.mark.types.MarkStatus;
 import io.gig.catchreview.core.domain.user.administrator.Administrator;
 import io.gig.catchreview.core.domain.user.member.Member;
 import lombok.AllArgsConstructor;
@@ -22,11 +22,11 @@ import java.time.LocalDateTime;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Sign extends BaseTimeEntity {
+public class Mark extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "sign_id")
+    @Column(name = "mark_id")
     private Long id;
 
     @Column(nullable = false)
@@ -39,17 +39,12 @@ public class Sign extends BaseTimeEntity {
     private int point;
 
     @Lob
-    private String content;
-
-    @Lob
     private String note;
 
     @Builder.Default
     @Column(length = 20)
     @Enumerated(EnumType.STRING)
-    private SignStatus status = SignStatus.PENDING;
-
-    private String rejectReason;
+    private MarkStatus status = MarkStatus.PENDING;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "created_by_admin_id")

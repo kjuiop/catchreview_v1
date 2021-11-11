@@ -43,8 +43,6 @@ public class Member extends AbstractUser implements Serializable {
 
     private LocalDateTime joinedAt;
 
-    private LocalDateTime lastModifiedPasswordAt;
-
     private LocalDateTime privacyAgreementAt;
 
     private LocalDateTime marketingAgreementAt;

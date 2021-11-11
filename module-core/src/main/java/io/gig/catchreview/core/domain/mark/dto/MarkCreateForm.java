@@ -1,11 +1,9 @@
-package io.gig.catchreview.core.domain.sign.dto;
+package io.gig.catchreview.core.domain.mark.dto;
 
 import lombok.*;
-import org.hibernate.validator.constraints.Length;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.NotEmpty;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 /**
@@ -17,10 +15,17 @@ import java.time.LocalDateTime;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class SignApplyForm {
+public class MarkCreateForm {
 
     @NotEmpty
     private String title;
+
+    private String zipCode;
+
+    @NotEmpty
+    private String address;
+
+    private String addressDetail;
 
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     private LocalDateTime startDateTime;
@@ -29,8 +34,6 @@ public class SignApplyForm {
     private LocalDateTime endDateTime;
 
     private int point;
-
-    private String content;
 
     private String note;
 }

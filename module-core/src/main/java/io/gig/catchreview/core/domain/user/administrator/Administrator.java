@@ -33,12 +33,12 @@ public class Administrator extends AbstractUser {
     private String name;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "created_by_id")
-    private Administrator createdBy;
+    @JoinColumn(name = "created_by_admin_id")
+    private Administrator createdByAdmin;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "updated_by_id")
-    private Administrator updatedBy;
+    @JoinColumn(name = "updated_by_admin_id")
+    private Administrator updatedByAdmin;
 
     @Builder.Default
     @OneToMany(mappedBy = "administrator", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
@@ -64,11 +64,11 @@ public class Administrator extends AbstractUser {
     }
 
     public boolean existCreatedBy(Administrator a) {
-        return a.getCreatedBy() != null;
+        return a.getCreatedByAdmin() != null;
     }
 
     public boolean existUpdatedBy(Administrator a) {
-        return a.getCreatedBy() != null;
+        return a.getCreatedByAdmin() != null;
     }
 
     public static Administrator create(AdministratorCreateForm createForm, String encodedPassword) {

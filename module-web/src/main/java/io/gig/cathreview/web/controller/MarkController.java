@@ -1,6 +1,6 @@
 package io.gig.cathreview.web.controller;
 
-import io.gig.catchreview.core.domain.sign.dto.SignApplyForm;
+import io.gig.catchreview.core.domain.mark.dto.MarkCreateForm;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,15 +12,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
  * @date : 2021-11-07
  */
 @Controller
-@RequestMapping("sign")
+@RequestMapping("mark")
 @RequiredArgsConstructor
-public class SignController {
+public class MarkController {
 
-    @GetMapping("apply")
-    public String applyForm(Model model) {
+    @GetMapping("new")
+    public String createForm(Model model) {
 
-        model.addAttribute("signApplyForm", new SignApplyForm());
+        model.addAttribute("markCreateForm", new MarkCreateForm());
 
-        return "sign/apply";
+        return "mark/createForm";
     }
 }
