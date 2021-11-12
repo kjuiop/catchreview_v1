@@ -1,7 +1,10 @@
 package io.gig.catchreview.core.domain.mark;
 
 import io.gig.catchreview.core.domain.common.BaseTimeEntity;
-import io.gig.catchreview.core.domain.mark.types.MarkStatus;
+import io.gig.catchreview.core.domain.mark.dto.MarkCreateForm;
+import io.gig.catchreview.core.domain.mark.types.ApplyStatus;
+import io.gig.catchreview.core.domain.mark.types.MarkType;
+import io.gig.catchreview.core.domain.mark.types.PublishStatus;
 import io.gig.catchreview.core.domain.user.administrator.Administrator;
 import io.gig.catchreview.core.domain.user.member.Member;
 import lombok.AllArgsConstructor;
@@ -11,6 +14,7 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 /**
@@ -32,6 +36,13 @@ public class Mark extends BaseTimeEntity {
     @Column(nullable = false)
     private String title;
 
+    private String zipCode;
+
+    @NotNull
+    private String address;
+
+    private String addressDetail;
+
     private LocalDateTime startDateTime;
 
     private LocalDateTime endDateTime;
@@ -44,7 +55,17 @@ public class Mark extends BaseTimeEntity {
     @Builder.Default
     @Column(length = 20)
     @Enumerated(EnumType.STRING)
-    private MarkStatus status = MarkStatus.PENDING;
+    private MarkType markType;
+
+    @Builder.Default
+    @Column(length = 20)
+    @Enumerated(EnumType.STRING)
+    private ApplyStatus applyStatus = ApplyStatus.PENDING;
+
+    @Builder.Default
+    @Column(length = 20)
+    @Enumerated(EnumType.STRING)
+    private PublishStatus publishStatus = PublishStatus.ME;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "created_by_admin_id")
@@ -61,4 +82,14 @@ public class Mark extends BaseTimeEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "updated_by_member_id")
     private Member updatedByMember;
+
+    public static Mark createByMember(MarkCreateForm form, Member createdByMember) {
+        return Mark.builder()
+                .title(form.getTitle())
+                .zipCode(form.getZipCode())
+                .address(form.getAddress())
+                .addressDetail(form.getAddressDetail())
+                .createdByMember(createdByMember)
+                .build();
+    }
 }

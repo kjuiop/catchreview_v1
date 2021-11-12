@@ -82,7 +82,7 @@ public class MemberService implements UserService<Member> {
 
 
     @Transactional
-    public Member signUp(@NotNull SignUpForm signUpForm) {
+    public String signUp(@NotNull SignUpForm signUpForm) {
 
         Member newMember = Member.signUp(signUpForm, passwordEncoder.encode(signUpForm.getPassword()));
 
@@ -95,7 +95,7 @@ public class MemberService implements UserService<Member> {
         newMember.addMemberRole(memberRole);
         memberRepository.save(newMember);
 
-        return newMember;
+        return newMember.getNickname();
     }
 
     @Transactional

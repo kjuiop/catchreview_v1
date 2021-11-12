@@ -11,15 +11,13 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public enum MarkStatus {
+public enum PublishStatus {
 
-    APPLY("Apply", "신청"),
+    ME("Me", "로그인유저"),
 
-    PENDING("Pending", "대기"),
+    FRIENDS("Friends", "친구"),
 
-    APPROVE("Approve", "승인"),
-
-    REJECT("Reject", "반려");
+    USER("User", "모든 유저");
 
     private String key;
 
