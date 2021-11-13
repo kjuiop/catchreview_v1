@@ -12,7 +12,8 @@
     <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=7dca6aea711fa1eb3cc0fdc0f10ed702&libraries=services,clusterer,drawing"></script>
     <script th:inline="javascript">
         /*<![CDATA[*/
-        const address = /*[[${address}]]*/'';
+        const keyword = /*[[${keyword}]]*/'';
+        const marks   = /*[[${marks}]]*/'';
         /*]]>*/
     </script>
     <script src="/static/js/index/index.js" th:src="@{/js/index/index.js}"></script>

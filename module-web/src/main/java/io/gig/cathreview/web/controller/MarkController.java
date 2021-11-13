@@ -2,6 +2,7 @@ package io.gig.cathreview.web.controller;
 
 import io.gig.catchreview.core.domain.mark.MarkService;
 import io.gig.catchreview.core.domain.mark.dto.MarkCreateForm;
+import io.gig.catchreview.core.domain.mark.dto.MarkDetailDto;
 import io.gig.catchreview.core.domain.user.CurrentUser;
 import io.gig.catchreview.core.domain.user.LoginUser;
 import io.gig.catchreview.core.domain.user.member.Member;
@@ -10,10 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
@@ -29,10 +27,23 @@ public class MarkController {
 
     private final MarkService markService;
 
-    @GetMapping("new")
-    public String createForm(Model model) {
+    @GetMapping("view/{markDetailId}")
+    public String createForm(@PathVariable(required = true, name = "markDetailId") Long markDetailId,
+                             Model model) {
 
-        model.addAttribute("markCreateForm", new MarkCreateForm());
+        MarkDetailDto detail = markService.getMarkDetailDto(markDetailId);
+
+        model.addAttribute("detail", detail);
+
+        return "mark/view";
+    }
+
+    @GetMapping("new")
+    public String createForm(@RequestParam(required = true, name = "x") String x,
+                             @RequestParam(required = true, name = "y") String y,
+                             Model model) {
+
+        model.addAttribute("markCreateForm", new MarkCreateForm().initCreateForm(x, y));
 
         return "mark/createForm";
     }

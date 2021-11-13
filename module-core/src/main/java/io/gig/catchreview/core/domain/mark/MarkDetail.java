@@ -5,7 +5,6 @@ import io.gig.catchreview.core.domain.common.types.YnType;
 import io.gig.catchreview.core.domain.mark.dto.MarkCreateForm;
 import io.gig.catchreview.core.domain.mark.types.ApplyStatus;
 import io.gig.catchreview.core.domain.mark.types.MarkType;
-import io.gig.catchreview.core.domain.mark.types.PromotionStatus;
 import io.gig.catchreview.core.domain.mark.types.PublishStatus;
 import io.gig.catchreview.core.domain.user.administrator.Administrator;
 import io.gig.catchreview.core.domain.user.member.Member;
@@ -15,8 +14,6 @@ import lombok.experimental.SuperBuilder;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * @author : Jake
@@ -27,48 +24,42 @@ import java.util.List;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
-public class Mark extends BaseTimeEntity {
+public class MarkDetail extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "mark_id")
+    @Column(name = "mark_detail_id")
     private Long id;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "mark_id", nullable = false)
+    private Mark mark;
+
+    @NotNull
+    @Column(length = 20)
+    @Enumerated(EnumType.STRING)
+    private MarkType markType;
+
     @Column(nullable = false)
-    private String coordinateX;
+    private String title;
 
-    @Column(nullable = false)
-    private String coordinateY;
+    private String shortDescription;
 
-    private int point;
+    private String content;
 
-    private LocalDateTime startDateTime;
+    private String zipCode;
 
-    private LocalDateTime endDateTime;
+    private String address;
 
-    @Builder.Default
-    @Column(length = 20)
-    @Enumerated(EnumType.STRING)
-    private ApplyStatus applyStatus = ApplyStatus.PENDING;
+    private String addressDetail;
 
-    @Builder.Default
-    @Column(length = 20)
-    @Enumerated(EnumType.STRING)
-    private PromotionStatus promotionStatus = PromotionStatus.PENDING;
-
-    @Builder.Default
-    @Column(length = 20)
-    @Enumerated(EnumType.STRING)
-    private PublishStatus publishStatus = PublishStatus.ME;
+    @Lob
+    private String note;
 
     @Builder.Default
     @Enumerated(EnumType.STRING)
     @Column(length = 1)
     private YnType deleteYn = YnType.N;
-
-    @Builder.Default
-    @OneToMany(mappedBy = "mark", cascade = {CascadeType.MERGE, CascadeType.PERSIST}, fetch = FetchType.LAZY)
-    private List<MarkDetail> markDetails = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "created_by_admin_id")
@@ -86,16 +77,24 @@ public class Mark extends BaseTimeEntity {
     @JoinColumn(name = "updated_by_member_id")
     private Member updatedByMember;
 
-    public static Mark createByMember(MarkCreateForm form, Member createdByMember) {
-        return Mark.builder()
-                .coordinateX(form.getCoordinateX())
-                .coordinateY(form.getCoordinateY())
-                .createdByMember(createdByMember)
-                .updatedByMember(createdByMember)
-                .build();
-    }
+    public static MarkDetail createByMember(MarkCreateForm form, Mark mark, Member createdByMember) {
 
-    public void addMarkDetails(MarkDetail detail) {
-        this.markDetails.add(detail);
+        MarkDetail detail = MarkDetail.builder()
+                            .mark(mark)
+                            .markType(form.getMarkType())
+                            .title(form.getTitle())
+                            .shortDescription(form.getShortDescription())
+                            .content(form.getContent())
+                            .createdByMember(createdByMember)
+                            .updatedByMember(createdByMember)
+                            .build();
+
+        if (MarkType.STORE.equals(detail.getMarkType())) {
+            detail.zipCode       = form.getZipCode();
+            detail.address       = form.getAddress();
+            detail.addressDetail = form.getAddressDetail();
+        }
+
+        return detail;
     }
 }

@@ -17,7 +17,7 @@
         </div>
         <div class="container-sm mt-2" th:if="${isNeedSearch}">
             <form class="d-flex col">
-                <input class="form-control" type="search" name="address" placeholder="주소 검색" aria-label="Search" th:value="${address}">
+                <input class="form-control" type="search" name="keyword" placeholder="키워드를 입력해주세요." aria-label="Search" th:value="${keyword}">
             </form>
         </div>
     </nav>
@@ -78,6 +78,36 @@
     </div>
 </div>
 <div th:fragment="footer" th:remove="tag">
+</div>
+<div th:fragment="markModal" th:remove="tag">
+    <div class="modal fade" id="markModal" tabindex="-1" aria-labelledby="markModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form name="inquiryForm" action="#" th:action="@{/inquiry}" method="post" novalidate>
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="inquiryModalLabel">카테고리 추가 신청</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="title" class="col-form-label">제목:</label>
+                            <input type="text" class="form-control" id="title" name="title">
+                        </div>
+                        <div class="form-group">
+                            <label for="content" class="col-form-label">내용:</label>
+                            <textarea class="form-control" id="content" rows="10" name="content"></textarea>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+                        <button type="submit" class="btn btn-primary btnInquirySave">신청</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 </div>
 <div th:fragment="attachment">
     <form name="frmUpload" class="hidden" enctype="multipart/form-data" method="post" action="/attachment/upload">

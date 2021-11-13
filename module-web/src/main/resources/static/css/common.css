@@ -5,3 +5,8 @@
 .display-none {
     display: none;
 }
+
+.display-flex-column {
+    display: flex;
+    flex-direction: column;
+}

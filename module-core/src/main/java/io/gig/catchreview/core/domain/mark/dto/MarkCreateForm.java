@@ -1,5 +1,6 @@
 package io.gig.catchreview.core.domain.mark.dto;
 
+import io.gig.catchreview.core.domain.mark.types.MarkType;
 import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -20,9 +21,20 @@ public class MarkCreateForm {
     @NotEmpty
     private String title;
 
-    private String zipCode;
+    @NotEmpty
+    private String coordinateX;
 
     @NotEmpty
+    private String coordinateY;
+
+    private MarkType markType;
+
+    private String shortDescription;
+
+    private String content;
+
+    private String zipCode;
+
     private String address;
 
     private String addressDetail;
@@ -35,5 +47,10 @@ public class MarkCreateForm {
 
     private int point;
 
-    private String note;
+    public MarkCreateForm initCreateForm(String x, String y) {
+        return MarkCreateForm.builder()
+                .coordinateX(x)
+                .coordinateY(y)
+                .build();
+    }
 }
