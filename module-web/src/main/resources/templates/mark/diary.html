@@ -11,7 +11,7 @@
 <body>
 <div layout:fragment="content">
     <div th:replace="layout/fragments.html :: header(false)"></div>
-    <img src="/images/banner.png" class="img-fluid mt-5" alt="..." style="width: 100%; height: 300px;">
+    <img th:src="${not #strings.isEmpty(detail.bannerImg) ? detail.bannerImg : '/images/banner.png'}" class="img-fluid mt-5" alt="..." style="width: 100%; height: 300px;">
     <main class="flex-shrink-0 bg-light">
         <!-- Page content-->
         <section class="mt-5">
@@ -25,23 +25,15 @@
                         >
                             [[${detail.shortDescription}]]</p>
                     </div>
-                    <div class="row gx-5 justify-content-center">
-                        <ul class="nav nav-pills nav-justified">
-                            <li class="nav-item">
-                                <a class="nav-link active" aria-current="page" href="#">소개</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">메뉴</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">리뷰</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">프로모션</a>
-                            </li>
-                        </ul>
+                    <div class="row gx-5 justify-content-center mt-5">
+                        <div class="btn-group" role="group" aria-label="Basic outlined example">
+                            <button type="button" class="btn btn-outline-primary">다이어리 등록하기</button>
+                        </div>
                     </div>
-                    <div class="row gx-5 justify-content-center mt-5" th:utext="${detail.content}" style="min-height: 300px;"></div>
+                    <div class="row gx-5 justify-content-center mt-5"
+                         style="min-height: 400px; background-color: #fff; border-radius: 50px;">
+                        <p class="align-self-center text-center">다이어리를 등록해주세요.</p>
+                    </div>
                 </div>
             </div>
         </section>

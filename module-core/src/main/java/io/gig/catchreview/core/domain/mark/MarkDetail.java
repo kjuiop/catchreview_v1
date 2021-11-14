@@ -47,6 +47,8 @@ public class MarkDetail extends BaseTimeEntity {
 
     private String content;
 
+    private String bannerImg;
+
     private String zipCode;
 
     private String address;
@@ -85,6 +87,7 @@ public class MarkDetail extends BaseTimeEntity {
                             .title(form.getTitle())
                             .shortDescription(form.getShortDescription())
                             .content(form.getContent())
+                            .bannerImg(form.getBannerImg())
                             .createdByMember(createdByMember)
                             .updatedByMember(createdByMember)
                             .build();

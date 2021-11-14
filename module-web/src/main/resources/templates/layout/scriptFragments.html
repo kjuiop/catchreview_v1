@@ -66,6 +66,149 @@
   </script>
 </div>
 
+<div type="application/javascript" th:inline="javascript" th:fragment="postCode" th:remove="tag">
+  <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+  <script>
+    function execDaumPostcode() {
+      new daum.Postcode({
+        oncomplete: function(data) {
+          // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
+
+          // 각 주소의 노출 규칙에 따라 주소를 조합한다.
+          // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
+          let addr = '', // 주소 변수
+                  extraAddr = ''; // 참고항목 변수
+
+          //사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
+          if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
+            addr = data.roadAddress;
+          } else { // 사용자가 지번 주소를 선택했을 경우(J)
+            addr = data.jibunAddress;
+          }
+
+          // 사용자가 선택한 주소가 도로명 타입일때 참고항목을 조합한다.
+          if(data.userSelectedType === 'R'){
+            // 법정동명이 있을 경우 추가한다. (법정리는 제외)
+            // 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
+            if(data.bname !== '' && /[동|로|가]$/g.test(data.bname)){
+              extraAddr += data.bname;
+            }
+            // 건물명이 있고, 공동주택일 경우 추가한다.
+            if(data.buildingName !== '' && data.apartment === 'Y'){
+              extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);
+            }
+            // 표시할 참고항목이 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
+            if(extraAddr !== ''){
+              extraAddr = ' (' + extraAddr + ')';
+            }
+            // 조합된 참고항목을 해당 필드에 넣는다.
+            // document.getElementById("extraAddress").value = extraAddr;
+
+          } else {
+            // document.getElementById("extraAddress").value = '';
+          }
+
+          // 우편번호와 주소 정보를 해당 필드에 넣는다.
+          document.getElementById('zipCode').value = data.zonecode;
+          document.getElementById("address").value = addr;
+          // 커서를 상세주소 필드로 이동한다.
+          document.getElementById("addressDetail").focus();
+        }
+      }).open();
+    }
+  </script>
+</div>
+
+<div type="application/javascript" th:inline="javascript" th:fragment="cropper" th:remove="tag">
+  <link  href="/node_modules/cropper/dist/cropper.min.css" rel="stylesheet">
+  <script src="/node_modules/cropper/dist/cropper.min.js"></script>
+  <script src="/node_modules/jquery-cropper/dist/jquery-cropper.min.js"></script>
+  <script th:inline="javascript">
+    $(function() {
+      cropper = '';
+      let $confirmBtn = $("#confirm-button");
+      let $resetBtn = $("#reset-button");
+      let $cutBtn = $("#cut-button");
+      let $newProfileImage = $("#new-profile-image");
+      let $currentProfileImage = $("#current-profile-image");
+      let $resultImage = $("#cropped-new-profile-image");
+      let $profileImage = $("#profileImage");
+
+      $newProfileImage.hide();
+      $cutBtn.hide();
+      $resetBtn.hide();
+      $confirmBtn.hide();
+
+      $("#file").change(function(e) {
+        if (e.target.files.length === 1) {
+          const reader = new FileReader();
+          reader.onload = e => {
+            if (e.target.result) {
+              if (!e.target.result.startsWith("data:image")) {
+                alert("이미지 파일을 선택하세요.");
+                return;
+              }
+
+              let img = document.createElement("img");
+              img.id = 'new-profile';
+              img.src = e.target.result;
+              img.setAttribute('width', '100%');
+
+              $newProfileImage.html(img);
+              $newProfileImage.show();
+              $currentProfileImage.hide();
+
+              let $newImage = $(img);
+              $newImage.cropper({aspectRatio: 1});
+              cropper = $newImage.data('cropper');
+
+              $cutBtn.show();
+              $confirmBtn.hide();
+              $resetBtn.show();
+            }
+          };
+
+          reader.readAsDataURL(e.target.files[0]);
+        }
+      });
+
+      $resetBtn.click(function() {
+        $currentProfileImage.show();
+        $newProfileImage.hide();
+        $resultImage.hide();
+        $resetBtn.hide();
+        $cutBtn.hide();
+        $confirmBtn.hide();
+        $profileImage.val('');
+      });
+
+      $cutBtn.click(function () {
+        let dataUrl = cropper.getCroppedCanvas().toDataURL();
+
+        if (dataUrl.length > 1000 * 10024) {
+          alert("이미지 파일이 너무 큽니다. 10MB 보다 작은 파일을 사용하세요. 현재 이미지 사이즈 " + dataUrl.length);
+          return;
+        }
+
+        let newImage = document.createElement("img");
+        newImage.id = "cropped-new-profile-image";
+        newImage.src = dataUrl;
+        newImage.width = 125;
+        $resultImage.html(newImage);
+        $resultImage.show();
+        $confirmBtn.show();
+
+        $confirmBtn.click(function () {
+          $newProfileImage.html(newImage);
+          $cutBtn.hide();
+          $confirmBtn.hide();
+          $profileImage.val(dataUrl);
+        });
+      });
+    });
+  </script>
+</div>
+
 <script type="application/javascript" th:fragment="postCodeLibrary">
 </script>
 </body>

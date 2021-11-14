@@ -25,6 +25,8 @@ public class MarkDetailDto extends MarkDto {
 
     private String content;
 
+    private String bannerImg;
+
     public MarkDetailDto(MarkDetail md) {
         super(md.getMark());
 
@@ -32,5 +34,6 @@ public class MarkDetailDto extends MarkDto {
         this.title              = md.getTitle();
         this.shortDescription   = md.getShortDescription();
         this.content            = md.getContent();
+        this.bannerImg          = md.getBannerImg();
     }
 }

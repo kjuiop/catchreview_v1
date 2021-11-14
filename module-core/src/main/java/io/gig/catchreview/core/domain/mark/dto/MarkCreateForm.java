@@ -29,6 +29,8 @@ public class MarkCreateForm {
 
     private MarkType markType;
 
+    private String bannerImg;
+
     private String shortDescription;
 
     private String content;

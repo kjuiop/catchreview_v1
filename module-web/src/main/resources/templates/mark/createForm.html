@@ -16,7 +16,7 @@
         <section class="mt-3">
             <div class="container px-5">
                 <!-- Contact form-->
-                <div class="rounded-3 py-5 px-md-5 mb-5">
+                <div class="rounded-3 py-5 px-md-5">
                     <div class="text-center mb-5">
                         <h1 class="fw-bolder">마크 생성</h1>
                         <p class="lead fw-normal text-muted mb-0">최고의 리뷰어를 모집해보세요!🗽</p>
@@ -26,10 +26,11 @@
                             <form id="markCreateForm" class="needs-validation" th:action="@{/mark/create}" th:object="${markCreateForm}" method="post" novalidate>
                                 <input type="hidden" name="coordinateX" th:value="${markCreateForm.coordinateX}" />
                                 <input type="hidden" name="coordinateY" th:value="${markCreateForm.coordinateY}" />
+                                <input type="hidden" name="bannerImg" />
 
                                 <div class="form-group mb-4 required">
-                                    <label for="firstCategory">마크 유형</label>
-                                    <select id="firstCategory" class="form-control" name="markType" aria-describedby="markTypeHelp" required>
+                                    <label for="markType">마크 유형</label>
+                                    <select id="markType" class="form-control" name="markType" aria-describedby="markTypeHelp" required>
                                         <option value="">선택하세요</option>
                                         <option value="DIARY">다이어리</option>
                                         <option value="STORE">가게</option>
@@ -53,7 +54,49 @@
                                     <small class="form-text text-danger" th:if="${#fields.hasErrors('shortDescription')}" th:errors="*{shortDescription}">ShortDescription Error</small>
                                 </div>
 
-                                <div class="form-group mb-3">
+                                <div class="form-group mb-4">
+                                    <label class="mb-1" for="title">배너 이미지</label>
+                                    <div class="thumbnailWrapper attachment display-flex-column">
+                                        <div class="thumbnailBtnSite">
+                                            <button id="attachFile" type="button" class="btn btn-outline-primary thumbnailUpload" style="font-size: 12px;">
+                                                <i class="fas fa-file-image-o" aria-hidden="true"></i>
+                                                업로드
+                                            </button>
+                                        </div>
+                                        <div class="mailbox-attachments clearfix imagePanel" style="display: inline-block"></div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group mb-5 display-none store-info">
+                                    <div class="row display-none">
+                                        <div class="col-12">
+                                            <input id="zipCode" th:field="*{zipCode}" type="text" class="form-control" name="zipCode"
+                                                   aria-describedby="zipCodeHelp" required max="500">
+                                        </div>
+                                    </div>
+                                    <label class="mb-1" for="address">주소</label>
+                                    <div class="row mb-3">
+                                        <div class="col-8">
+                                            <input id="address" th:field="*{address}" type="text" class="form-control" name="address" readonly
+                                                   aria-describedby="contactHelp" required max="500" placeholder="주소를 입력해주세요."
+                                                   onclick="execDaumPostcode()">
+                                            <small class="form-text text-danger" th:if="${#fields.hasErrors('address')}" th:errors="*{address}">Address Error</small>
+                                        </div>
+                                        <div class="col-4">
+                                            <button type="button" class="btn btn-outline-secondary" onclick="execDaumPostcode()">주소검색</button>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <input id="addressDetail" th:field="*{addressDetail}" type="text" class="form-control" name="addressDetail"
+                                                   aria-describedby="contactHelp" required max="500" placeholder="상세주소를 입력해주세요.">
+                                            <small class="invalid-feedback">주소를 입력하세요.</small>
+                                            <small class="form-text text-danger" th:if="${#fields.hasErrors('addressDetail')}" th:errors="*{addressDetail}">AddressDetail Error</small>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group mb-3 display-none store-info">
                                     <label for="content">상세 소개</label>
                                     <textarea id="content" th:field="*{content}" class="editor form-control"
                                               placeholder="마크에 대해 자세히 설명해주세요." aria-describedby="contentHelp" required></textarea>
@@ -77,6 +120,80 @@
     <script th:replace="layout/fragments :: attachment"></script>
     <script th:replace="layout/scriptFragments :: dateRangePicker"></script>
     <script th:replace="layout/scriptFragments :: tinyEditor"></script>
+    <script th:replace="layout/scriptFragments :: postCode"></script>
+    <script>
+
+        const onReady = function() {
+
+        }
+
+        const changeInputForm = function(e) {
+            e.preventDefault();
+
+            let $this       = $(this),
+                markType    = $this.val();
+
+            if (!checkNullOrEmptyValue(markType)) {
+                return;
+            }
+
+            if (markType === 'DIARY') {
+                $('.store-info').addClass('display-none');
+                $('.diary-info').removeClass('display-none');
+            } else if (markType === 'STORE') {
+                $('.diary-info').addClass('display-none');
+                $('.store-info').removeClass('display-none');
+            }
+
+        }
+
+        const imgUpload = function() {
+            const $this = $(this);
+
+            documentUpload({
+                multiple: false,
+                callback: function (data) {
+
+                    console.log("data", data);
+
+                    if (data.status === 200) {
+
+                        $('.thumbnailBtnSite').addClass('display-none');
+
+                        const   fullPath               = data.responseText,
+                                $thumbnailWrapper   = $this.closest('.thumbnailWrapper'),
+                                $thumbnailPanel     = $thumbnailWrapper.find('.imagePanel');
+
+                        let tag                     = drawImgTag(fullPath);
+
+                        $thumbnailPanel.append(tag);
+                        $('input[name="bannerImg"]').val(fullPath);
+                    }
+                }
+            });
+        };
+
+        const drawImgTag = function(fullPath) {
+            let tag = '';
+
+            tag += '<div class="thumbnailInfo" style="display: inline-block;">';
+            tag += '<div class="" style="margin-bottom: 10px;">';
+            tag += '<div class="image-panel" style="cursor: pointer; position: relative;">';
+            tag +=       '<img class="img-fluid" src="' + fullPath + '">';
+            tag +=       '<button type="button" class="btn btn-warning update-image thumbnailUpload" style="position: absolute; right: 38px;"><i class="fas fa-wrench" aria-hidden="true"></i></button>';
+            tag +=       '<button type="button" class="btn btn-danger pull-right remove-image" style="position: absolute; right: 0;"><i class="fas fa-times" aria-hidden="true"></i></button>';
+            tag += '</div>';
+            tag += '</div>';
+            tag += '</div>';
+
+            return tag;
+        };
+
+        $(document).ready(onReady)
+            .on('change', '#markType', changeInputForm)
+            .on('click', '.thumbnailUpload', imgUpload);
+
+    </script>
 </section>
 </body>
 </html>

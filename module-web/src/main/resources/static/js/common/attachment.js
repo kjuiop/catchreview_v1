@@ -1,12 +1,12 @@
 /**
  * Attachment JS
- * @author Park-pro
- * @date 19.05.08
+ * @author JAKE
+ * @date 21.11.14
  */
 
 function initialization($form) {
-	var $file = $form.find('input[name=file]'),
-		$files = $form.find('#files');
+	const 	$file 	= $form.find('input[name=file]'),
+			$files 	= $form.find('#files');
 
 	$file.val('');
 	$files.val('');
@@ -26,7 +26,7 @@ function ajaxForm($form, uploadSuccess) {
 
 function documentUpload(options) {
 	console.log("1")
-	var $form = $("form[name='frmUpload']");
+	const $form = $("form[name='frmUpload']");
 
 	$.ajaxSetup({
 	    dataType: "text",
@@ -44,18 +44,18 @@ function documentUpload(options) {
 	 * init
 	 */
 	initialization($form);
-	var	$inputFile = $form.find('#file');
+	let	$inputFile = $form.find('#file');
 	if (options !== null && options.multiple !== undefined && options.multiple) $inputFile = $form.find('#files');
 	if (options !== null && options.accept !== undefined) $inputFile.attr('accept', options.accept);
 
-	var uploadSuccess = function(responseText, statusText) {
+	const uploadSuccess = function(responseText, statusText) {
 		console.log("2")
 		$("body").spin("modal");
 		if (statusText === 'success') {
-			var data = responseText
+			let data = responseText;
 			if (typeof(options.callback) === 'function') options.callback(data);
-			$file.val('');
-			$file.attr("accept", "");
+			$inputFile.val('');
+			$inputFile.attr("accept", "");
 		}
 	};
 
@@ -64,8 +64,8 @@ function documentUpload(options) {
 		ajaxForm($form, uploadSuccess);
 
 		// 바이트 기준 1048576(Byte) = 1024(KB) = 1(MB)
-		var fileSize = document.getElementById("file").files[0].size;
-		var fileType = document.getElementById("file").files[0].type.split('/');
+		const fileSize = document.getElementById("file").files[0].size;
+		const fileType = document.getElementById("file").files[0].type.split('/');
 
 		//3MB
 		if (fileType[0] === 'image' && (fileType[1] === 'png' || fileType[1] === 'jpg' || fileType[1] === 'jpeg') && fileSize > 3145728) {

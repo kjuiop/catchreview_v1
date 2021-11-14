@@ -109,7 +109,7 @@
         </div>
     </div>
 </div>
-<div th:fragment="attachment">
+<div th:fragment="attachment" th:remove="tag">
     <form name="frmUpload" class="hidden" enctype="multipart/form-data" method="post" action="/attachment/upload">
         <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" >
         <input type="file" id="file" name="file" />

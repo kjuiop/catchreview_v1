@@ -3,6 +3,7 @@ package io.gig.cathreview.web.controller;
 import io.gig.catchreview.core.domain.mark.MarkService;
 import io.gig.catchreview.core.domain.mark.dto.MarkCreateForm;
 import io.gig.catchreview.core.domain.mark.dto.MarkDetailDto;
+import io.gig.catchreview.core.domain.mark.types.MarkType;
 import io.gig.catchreview.core.domain.user.CurrentUser;
 import io.gig.catchreview.core.domain.user.LoginUser;
 import io.gig.catchreview.core.domain.user.member.Member;
@@ -31,11 +32,19 @@ public class MarkController {
     public String createForm(@PathVariable(required = true, name = "markDetailId") Long markDetailId,
                              Model model) {
 
+        String viewName = "mark/view";
+
         MarkDetailDto detail = markService.getMarkDetailDto(markDetailId);
+
+        if (MarkType.DIARY.equals(detail.getMarkType())) {
+            viewName = "mark/diary";
+        } else if (MarkType.STORE.equals(detail.getMarkType())) {
+            viewName = "mark/store";
+        }
 
         model.addAttribute("detail", detail);
 
-        return "mark/view";
+        return viewName;
     }
 
     @GetMapping("new")

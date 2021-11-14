@@ -5,6 +5,9 @@ build/
 !**/src/main/**/build/
 !**/src/test/**/build/
 
+##
+module-core/src/main/resources/application-credentials.yml
+
 ## Node Modules ##
 module-web/src/main/resources/static/node_modules
 module-admin/src/main/resources/static/node_modules
