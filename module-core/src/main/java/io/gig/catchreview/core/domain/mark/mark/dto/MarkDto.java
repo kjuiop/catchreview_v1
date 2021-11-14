@@ -1,9 +1,9 @@
-package io.gig.catchreview.core.domain.mark.dto;
+package io.gig.catchreview.core.domain.mark.mark.dto;
 
-import io.gig.catchreview.core.domain.mark.Mark;
-import io.gig.catchreview.core.domain.mark.types.ApplyStatus;
-import io.gig.catchreview.core.domain.mark.types.PromotionStatus;
-import io.gig.catchreview.core.domain.mark.types.PublishStatus;
+import io.gig.catchreview.core.domain.mark.mark.Mark;
+import io.gig.catchreview.core.domain.mark.mark.types.ApplyStatus;
+import io.gig.catchreview.core.domain.mark.mark.types.PromotionStatus;
+import io.gig.catchreview.core.domain.mark.mark.types.PublishStatus;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

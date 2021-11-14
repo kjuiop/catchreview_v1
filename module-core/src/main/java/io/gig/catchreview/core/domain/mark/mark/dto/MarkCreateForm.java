@@ -1,6 +1,6 @@
-package io.gig.catchreview.core.domain.mark.dto;
+package io.gig.catchreview.core.domain.mark.mark.dto;
 
-import io.gig.catchreview.core.domain.mark.types.MarkType;
+import io.gig.catchreview.core.domain.mark.mark.types.MarkType;
 import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 

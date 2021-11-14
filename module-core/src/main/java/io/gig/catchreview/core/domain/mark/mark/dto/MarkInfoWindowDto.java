@@ -1,6 +1,6 @@
-package io.gig.catchreview.core.domain.mark.dto;
+package io.gig.catchreview.core.domain.mark.mark.dto;
 
-import io.gig.catchreview.core.domain.mark.MarkDetail;
+import io.gig.catchreview.core.domain.mark.mark.MarkDetail;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

@@ -1,4 +1,4 @@
-package io.gig.catchreview.core.domain.mark.types;
+package io.gig.catchreview.core.domain.mark.mark.types;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -11,11 +11,15 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public enum MarkType {
+public enum ApplyStatus {
 
-    DIARY("Diary", "일기"),
+    APPLY("Apply", "신청"),
 
-    STORE("Store", "가게");
+    PENDING("Pending", "대기"),
+
+    APPROVE("Approve", "승인"),
+
+    REJECT("Reject", "반려");
 
     private String key;
 

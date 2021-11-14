@@ -1,4 +1,4 @@
-package io.gig.catchreview.core.domain.mark;
+package io.gig.catchreview.core.domain.mark.mark;
 
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.Projections;
@@ -6,8 +6,8 @@ import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import io.gig.catchreview.core.domain.common.types.YnType;
-import io.gig.catchreview.core.domain.mark.dto.MarkCoordinateDto;
-import io.gig.catchreview.core.domain.mark.dto.MarkDetailDto;
+import io.gig.catchreview.core.domain.mark.mark.dto.MarkCoordinateDto;
+import io.gig.catchreview.core.domain.mark.mark.dto.MarkDetailDto;
 import io.gig.catchreview.core.exception.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -16,8 +16,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.text.MessageFormat;
 import java.util.List;
 
-import static io.gig.catchreview.core.domain.mark.QMark.mark;
-import static io.gig.catchreview.core.domain.mark.QMarkDetail.markDetail;
+import static io.gig.catchreview.core.domain.mark.mark.QMark.mark;
+import static io.gig.catchreview.core.domain.mark.mark.QMarkDetail.markDetail;
 
 /**
  * @author : Jake

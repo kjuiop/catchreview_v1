@@ -1,4 +1,4 @@
-package io.gig.catchreview.core.domain.mark.types;
+package io.gig.catchreview.core.domain.mark.mark.types;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

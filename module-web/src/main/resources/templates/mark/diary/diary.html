@@ -15,7 +15,7 @@
     <main class="flex-shrink-0 bg-light">
         <!-- Page content-->
         <section class="mt-5">
-            <div class="container px-5">
+            <div class="container">
                 <!-- Contact form-->
                 <div class="rounded-3 px-md-5 mb-5">
                     <div class="text-center mb-5">
@@ -25,13 +25,14 @@
                         >
                             [[${detail.shortDescription}]]</p>
                     </div>
-                    <div class="row gx-5 justify-content-center mt-5">
+                    <div class="row gx-5 justify-content-center mt-5 px-5">
                         <div class="btn-group" role="group" aria-label="Basic outlined example">
-                            <button type="button" class="btn btn-outline-primary">다이어리 등록하기</button>
+                            <a th:href="|/mark/${detail.markDetailId}/diary/new|"
+                               class="btn btn-outline-primary text-decoration-none">다이어리 등록하기</a>
                         </div>
                     </div>
                     <div class="row gx-5 justify-content-center mt-5"
-                         style="min-height: 400px; background-color: #fff; border-radius: 50px;">
+                         style="min-height: 400px; background-color: #fff;">
                         <p class="align-self-center text-center">다이어리를 등록해주세요.</p>
                     </div>
                 </div>

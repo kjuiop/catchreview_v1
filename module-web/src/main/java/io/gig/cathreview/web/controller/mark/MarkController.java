@@ -1,14 +1,13 @@
-package io.gig.cathreview.web.controller;
+package io.gig.cathreview.web.controller.mark;
 
-import io.gig.catchreview.core.domain.mark.MarkService;
-import io.gig.catchreview.core.domain.mark.dto.MarkCreateForm;
-import io.gig.catchreview.core.domain.mark.dto.MarkDetailDto;
-import io.gig.catchreview.core.domain.mark.types.MarkType;
+import io.gig.catchreview.core.domain.mark.diary.dto.DiaryCreateForm;
+import io.gig.catchreview.core.domain.mark.mark.MarkService;
+import io.gig.catchreview.core.domain.mark.mark.dto.MarkCreateForm;
+import io.gig.catchreview.core.domain.mark.mark.dto.MarkDetailDto;
+import io.gig.catchreview.core.domain.mark.mark.types.MarkType;
 import io.gig.catchreview.core.domain.user.CurrentUser;
 import io.gig.catchreview.core.domain.user.LoginUser;
-import io.gig.catchreview.core.domain.user.member.Member;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -37,9 +36,9 @@ public class MarkController {
         MarkDetailDto detail = markService.getMarkDetailDto(markDetailId);
 
         if (MarkType.DIARY.equals(detail.getMarkType())) {
-            viewName = "mark/diary";
+            viewName = "mark/diary/diary";
         } else if (MarkType.STORE.equals(detail.getMarkType())) {
-            viewName = "mark/store";
+            viewName = "mark/store/store";
         }
 
         model.addAttribute("detail", detail);

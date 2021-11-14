@@ -1,19 +1,18 @@
-package io.gig.catchreview.core.domain.mark;
+package io.gig.catchreview.core.domain.mark.mark;
 
 import io.gig.catchreview.core.domain.common.BaseTimeEntity;
 import io.gig.catchreview.core.domain.common.types.YnType;
-import io.gig.catchreview.core.domain.mark.dto.MarkCreateForm;
-import io.gig.catchreview.core.domain.mark.types.ApplyStatus;
-import io.gig.catchreview.core.domain.mark.types.MarkType;
-import io.gig.catchreview.core.domain.mark.types.PromotionStatus;
-import io.gig.catchreview.core.domain.mark.types.PublishStatus;
+import io.gig.catchreview.core.domain.mark.mark.dto.MarkCreateForm;
+import io.gig.catchreview.core.domain.mark.mark.types.ApplyStatus;
+import io.gig.catchreview.core.domain.mark.mark.types.MarkType;
+import io.gig.catchreview.core.domain.mark.mark.types.PromotionStatus;
+import io.gig.catchreview.core.domain.mark.mark.types.PublishStatus;
 import io.gig.catchreview.core.domain.user.administrator.Administrator;
 import io.gig.catchreview.core.domain.user.member.Member;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -60,6 +59,11 @@ public class Mark extends BaseTimeEntity {
     @Column(length = 20)
     @Enumerated(EnumType.STRING)
     private PublishStatus publishStatus = PublishStatus.ME;
+
+    @Builder.Default
+    @Enumerated(EnumType.STRING)
+    @Column(length = 1)
+    private YnType showYn = YnType.Y;
 
     @Builder.Default
     @Enumerated(EnumType.STRING)

@@ -1,8 +1,7 @@
-package io.gig.catchreview.core.domain.mark.dto;
+package io.gig.catchreview.core.domain.mark.mark.dto;
 
-import io.gig.catchreview.core.domain.mark.Mark;
-import io.gig.catchreview.core.domain.mark.MarkDetail;
-import io.gig.catchreview.core.domain.mark.types.MarkType;
+import io.gig.catchreview.core.domain.mark.mark.MarkDetail;
+import io.gig.catchreview.core.domain.mark.mark.types.MarkType;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
@@ -17,6 +16,8 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 public class MarkDetailDto extends MarkDto {
 
+    private Long markDetailId;
+
     private MarkType markType;
 
     private String title;
@@ -30,6 +31,7 @@ public class MarkDetailDto extends MarkDto {
     public MarkDetailDto(MarkDetail md) {
         super(md.getMark());
 
+        this.markDetailId       = md.getId();
         this.markType           = md.getMarkType();
         this.title              = md.getTitle();
         this.shortDescription   = md.getShortDescription();

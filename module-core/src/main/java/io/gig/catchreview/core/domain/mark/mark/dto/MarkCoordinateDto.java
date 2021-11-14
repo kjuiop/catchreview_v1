@@ -1,6 +1,6 @@
-package io.gig.catchreview.core.domain.mark.dto;
+package io.gig.catchreview.core.domain.mark.mark.dto;
 
-import io.gig.catchreview.core.domain.mark.Mark;
+import io.gig.catchreview.core.domain.mark.mark.Mark;
 import lombok.*;
 
 import java.util.ArrayList;

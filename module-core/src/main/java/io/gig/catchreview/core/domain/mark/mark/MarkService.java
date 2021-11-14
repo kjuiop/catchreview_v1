@@ -1,9 +1,7 @@
-package io.gig.catchreview.core.domain.mark;
+package io.gig.catchreview.core.domain.mark.mark;
 
-import io.gig.catchreview.core.domain.mark.dto.MarkCreateForm;
-import io.gig.catchreview.core.domain.mark.dto.MarkDetailDto;
-import io.gig.catchreview.core.domain.menu.Menu;
-import io.gig.catchreview.core.domain.menu.dto.MenuCreateForm;
+import io.gig.catchreview.core.domain.mark.mark.dto.MarkCreateForm;
+import io.gig.catchreview.core.domain.mark.mark.dto.MarkDetailDto;
 import io.gig.catchreview.core.domain.user.member.Member;
 import io.gig.catchreview.core.domain.user.member.MemberService;
 import lombok.RequiredArgsConstructor;
@@ -11,7 +9,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.validation.constraints.NotNull;
-import java.util.Optional;
 
 /**
  * @author : Jake
