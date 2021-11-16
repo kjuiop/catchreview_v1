@@ -1,10 +1,9 @@
 package io.gig.cathreview.web.controller.mark;
 
-import io.gig.catchreview.core.domain.mark.diary.dto.DiaryCreateForm;
+import io.gig.catchreview.core.domain.mark.diary.DiaryService;
 import io.gig.catchreview.core.domain.mark.mark.MarkService;
 import io.gig.catchreview.core.domain.mark.mark.dto.MarkCreateForm;
 import io.gig.catchreview.core.domain.mark.mark.dto.MarkDetailDto;
-import io.gig.catchreview.core.domain.mark.mark.types.MarkType;
 import io.gig.catchreview.core.domain.user.CurrentUser;
 import io.gig.catchreview.core.domain.user.LoginUser;
 import lombok.RequiredArgsConstructor;
@@ -26,24 +25,27 @@ import javax.validation.Valid;
 public class MarkController {
 
     private final MarkService markService;
+    private final DiaryService diaryService;
 
-    @GetMapping("view/{markDetailId}")
-    public String createForm(@PathVariable(required = true, name = "markDetailId") Long markDetailId,
+    @GetMapping("view/diary/{markDetailId}")
+    public String diaryView(@PathVariable(required = true, name = "markDetailId") Long markDetailId,
                              Model model) {
-
-        String viewName = "mark/view";
 
         MarkDetailDto detail = markService.getMarkDetailDto(markDetailId);
 
-        if (MarkType.DIARY.equals(detail.getMarkType())) {
-            viewName = "mark/diary/diary";
-        } else if (MarkType.STORE.equals(detail.getMarkType())) {
-            viewName = "mark/store/store";
-        }
-
         model.addAttribute("detail", detail);
 
-        return viewName;
+        return "mark/diary/diary";
+    }
+
+    @GetMapping("view/store/{markDetailId}")
+    public String storeView(@PathVariable(required = true, name = "markDetailId") Long markDetailId,
+                             Model model) {
+
+        MarkDetailDto detail = markService.getMarkDetailDto(markDetailId);
+        model.addAttribute("detail", detail);
+
+        return "mark/store/store";
     }
 
     @GetMapping("new")

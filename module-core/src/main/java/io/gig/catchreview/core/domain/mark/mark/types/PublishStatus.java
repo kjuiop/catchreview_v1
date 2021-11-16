@@ -13,11 +13,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public enum PublishStatus {
 
-    ME("Me", "로그인유저"),
+    ME("me", "로그인유저"),
 
-    FRIENDS("Friends", "친구"),
+    FRIENDS("friends", "친구"),
 
-    USER("User", "모든 유저");
+    USER("user", "모든 유저");
 
     private String key;
 

@@ -91,6 +91,10 @@ public class MarkDetail extends BaseTimeEntity {
     @JoinColumn(name = "updated_by_member_id")
     private Member updatedByMember;
 
+    public void addDiary(Diary diary) {
+        this.diaries.add(diary);
+    }
+
     public static MarkDetail createByMember(MarkCreateForm form, Mark mark, Member createdByMember) {
 
         MarkDetail detail = MarkDetail.builder()

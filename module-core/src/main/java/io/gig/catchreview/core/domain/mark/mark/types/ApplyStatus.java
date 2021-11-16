@@ -13,13 +13,13 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public enum ApplyStatus {
 
-    APPLY("Apply", "신청"),
+    APPLY("apply", "신청"),
 
-    PENDING("Pending", "대기"),
+    PENDING("pending", "대기"),
 
-    APPROVE("Approve", "승인"),
+    APPROVE("approve", "승인"),
 
-    REJECT("Reject", "반려");
+    REJECT("reject", "반려");
 
     private String key;
 

@@ -31,7 +31,7 @@
                                class="btn btn-outline-primary text-decoration-none">다이어리 등록하기</a>
                         </div>
                     </div>
-                    <div class="row gx-5 justify-content-center mt-5"
+                    <div id="diarySite" class="row gx-5 justify-content-center mt-5"
                          style="min-height: 400px; background-color: #fff;">
                         <p class="align-self-center text-center">다이어리를 등록해주세요.</p>
                     </div>
@@ -45,6 +45,31 @@
     <script th:replace="layout/fragments :: attachment"></script>
     <script th:replace="layout/scriptFragments :: dateRangePicker"></script>
     <script th:replace="layout/scriptFragments :: tinyEditor"></script>
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        const detail = /*[[${detail}]]*/'';
+        /*]]>*/
+    </script>
+    <script>
+
+        const onReady = function() {
+
+            loadDiaryPageList();
+        }
+
+        const loadDiaryPageList = function() {
+
+            const markDetailId = detail.markDetailId;
+
+            if (!checkNullOrEmptyValue(markDetailId)) {
+                return false;
+            }
+
+
+        }
+
+        $(document).ready(onReady);
+    </script>
 </section>
 </body>
 </html>

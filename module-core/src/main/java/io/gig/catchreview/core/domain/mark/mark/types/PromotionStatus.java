@@ -13,11 +13,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public enum PromotionStatus {
 
-    PENDING("Pending", "대기"),
+    PENDING("pending", "대기"),
 
-    PROGRESS("Progress", "진행중"),
+    PROGRESS("progress", "진행중"),
 
-    COMPLETE("Complete", "마감");
+    COMPLETE("complete", "마감");
 
     private String key;
 

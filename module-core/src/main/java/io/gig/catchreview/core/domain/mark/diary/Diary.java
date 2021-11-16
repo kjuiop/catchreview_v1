@@ -2,6 +2,7 @@ package io.gig.catchreview.core.domain.mark.diary;
 
 import io.gig.catchreview.core.domain.common.BaseTimeEntity;
 import io.gig.catchreview.core.domain.common.types.YnType;
+import io.gig.catchreview.core.domain.mark.diary.dto.DiaryCreateForm;
 import io.gig.catchreview.core.domain.mark.mark.Mark;
 import io.gig.catchreview.core.domain.mark.mark.MarkDetail;
 import io.gig.catchreview.core.domain.user.administrator.Administrator;
@@ -61,4 +62,16 @@ public class Diary extends BaseTimeEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "updated_by_member_id")
     private Member updatedByMember;
+
+    public static Diary createByMember(DiaryCreateForm form,
+                                       MarkDetail markDetail,
+                                       Member loginUser) {
+        return Diary.builder()
+                    .markDetail(markDetail)
+                    .title(form.getTitle())
+                    .content(form.getContent())
+                    .createdByMember(loginUser)
+                    .updatedByMember(loginUser)
+                    .build();
+    }
 }

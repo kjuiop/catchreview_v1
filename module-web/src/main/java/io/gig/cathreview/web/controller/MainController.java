@@ -1,6 +1,7 @@
 package io.gig.cathreview.web.controller;
 
 import io.gig.catchreview.core.domain.mark.mark.MarkQueryRepository;
+import io.gig.catchreview.core.domain.mark.mark.MarkService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -18,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 @RequiredArgsConstructor
 public class MainController {
 
-    private final MarkQueryRepository markQueryRepository;
+    private final MarkService markService;
 
     @GetMapping("/")
     public String index(@RequestParam(value = "keyword", required = false) String address,
@@ -28,7 +29,7 @@ public class MainController {
             model.addAttribute("keyword", address);
         }
 
-        model.addAttribute("marks", markQueryRepository.getMarkListForMap());
+        model.addAttribute("marks", markService.getMarkListForMap());
 
         return "index";
     }

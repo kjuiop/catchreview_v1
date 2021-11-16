@@ -90,16 +90,16 @@ public class Mark extends BaseTimeEntity {
     @JoinColumn(name = "updated_by_member_id")
     private Member updatedByMember;
 
-    public static Mark createByMember(MarkCreateForm form, Member createdByMember) {
+    public void addMarkDetail(MarkDetail detail) {
+        this.markDetails.add(detail);
+    }
+
+    public static Mark createByMember(MarkCreateForm form, Member loginUser) {
         return Mark.builder()
                 .coordinateX(form.getCoordinateX())
                 .coordinateY(form.getCoordinateY())
-                .createdByMember(createdByMember)
-                .updatedByMember(createdByMember)
+                .createdByMember(loginUser)
+                .updatedByMember(loginUser)
                 .build();
-    }
-
-    public void addMarkDetails(MarkDetail detail) {
-        this.markDetails.add(detail);
     }
 }

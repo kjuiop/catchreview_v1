@@ -13,9 +13,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public enum MarkType {
 
-    DIARY("Diary", "일기"),
+    DIARY("diary", "일기"),
 
-    STORE("Store", "가게");
+    STORE("store", "가게");
 
     private String key;
 

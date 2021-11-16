@@ -23,13 +23,14 @@
                     </div>
                     <div class="row gx-5 justify-content-center">
                         <div class="col-lg-8 col-xl-6">
-                            <form id="markCreateForm" class="needs-validation" th:action="@{/diary/create}" th:object="${diaryCreateForm}" method="post" novalidate>
+                            <form id="markCreateForm" class="needs-validation" th:action="|/mark/${diaryCreateForm.markDetailId}/diary/create|" th:object="${diaryCreateForm}" method="post" novalidate>
+                                <input type="hidden" name="markDetailId" th:field="*{markDetailId}" />
 
                                 <div class="form-group mb-4">
                                     <label class="mb-1" for="title">제목</label>
                                     <input id="title" th:field="*{title}" type="text" class="form-control" name="title"
-                                           aria-describedby="contactHelp" required max="500" placeholder="마크 이름을 입력해주세요.">
-                                    <small class="invalid-feedback">다이어리 제목을 입력하세요.</small>
+                                           aria-describedby="contactHelp" required max="500" placeholder="다이어리 제목을 입력해주세요.">
+                                    <small class="invalid-feedback">다이어리 제목을 입력해주세요.</small>
                                     <small class="form-text text-danger" th:if="${#fields.hasErrors('title')}" th:errors="*{title}">Title Error</small>
                                 </div>
 

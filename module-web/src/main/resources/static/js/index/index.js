@@ -41,7 +41,7 @@ $.each(marks, function(markIdx, mark){
         iwContent += '<div class="display-flex-column" style="padding:5px; padding-left: 20px;">';
 
         $.each(mark.infoWindows, function(infoIdx, info) {
-            iwContent += '<a href="/mark/view/' + info.markDetailId + '" class="text-decoration-none fw-normal" style="color: black;">' + info.title + '</a>';
+            iwContent += '<a href="/mark/view/' + info.markType + '/' + info.markDetailId + '" class="text-decoration-none fw-normal" style="color: black;">' + info.title + '</a>';
         })
         iwContent += '</div>';
 
