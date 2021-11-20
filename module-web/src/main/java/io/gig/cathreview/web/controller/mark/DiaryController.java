@@ -1,11 +1,14 @@
 package io.gig.cathreview.web.controller.mark;
 
+import io.gig.catchreview.core.domain.common.dto.BasePageDto;
 import io.gig.catchreview.core.domain.mark.diary.DiaryService;
 import io.gig.catchreview.core.domain.mark.diary.dto.DiaryCreateForm;
+import io.gig.catchreview.core.domain.mark.diary.dto.DiaryListDto;
 import io.gig.catchreview.core.domain.mark.mark.dto.MarkCreateForm;
 import io.gig.catchreview.core.domain.user.CurrentUser;
 import io.gig.catchreview.core.domain.user.LoginUser;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -27,6 +30,19 @@ import javax.validation.Valid;
 public class DiaryController {
 
     private final DiaryService diaryService;
+
+    @GetMapping
+    public String getDiaryList(@PathVariable(name = "markDetailId") Long markDetailId,
+                              BasePageDto page,
+                              @CurrentUser LoginUser loginUser,
+                              Model model) {
+
+        Page<DiaryListDto> diaries = diaryService.getDiaryPageList(markDetailId, page.getPageRequest(), loginUser);
+
+        model.addAttribute("diaries", diaries);
+
+        return "mark/diary/diaryList :: diaries";
+    }
 
     @GetMapping("new")
     public String diaryCreateForm(@PathVariable(name = "markDetailId") Long markDetailId,

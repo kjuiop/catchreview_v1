@@ -273,7 +273,7 @@ const checkEvent = (e) => {
     if (e) e.preventDefault();
 }
 
-var ajaxErrorFieldByText = function (response) {
+const ajaxErrorFieldByText = function (response) {
     const errorFields = response.responseJSON;
 
     var $field, error;
@@ -287,15 +287,15 @@ var ajaxErrorFieldByText = function (response) {
     });
 };
 
-var drawErrorMessage = function($field, errorMsg) {
+const drawErrorMessage = function($field, errorMsg) {
     $field.after('<small class="error-message text-small text-danger">' + errorMsg + '</small>');
 }
 
-var drawSuccessMessage = function($field, errorMsg) {
+const drawSuccessMessage = function($field, errorMsg) {
     $field.after('<small class="error-message text-small text-blue">' + errorMsg + '</small>');
 }
 
-var jQueryErrorField = function (errorList) {
+const jQueryErrorField = function (errorList) {
     console.log("errorList", errorList);
     var $field;
     $.each(errorList, function(idx, error){
@@ -309,7 +309,7 @@ var jQueryErrorField = function (errorList) {
 };
 
 
-var ajaxErrorFieldByModal = function (response) {
+const ajaxErrorFieldByModal = function (response) {
     const errorFields = response.responseJSON;
 
     var $field, error;
@@ -323,7 +323,7 @@ var ajaxErrorFieldByModal = function (response) {
     });
 };
 
-var formToAjax = function($form, uploadSuccess) {
+const formToAjax = function($form, uploadSuccess) {
     $form.ajaxForm({
         success: function () {},
         complete: uploadSuccess,

@@ -13,11 +13,15 @@
     <div th:replace="layout/fragments.html :: header(false)"></div>
     <img th:src="${not #strings.isEmpty(detail.bannerImg) ? detail.bannerImg : '/images/banner.png'}" class="img-fluid mt-5" alt="..." style="width: 100%; height: 300px;">
     <main class="flex-shrink-0 bg-light">
+        <form name="diaryForm" method="get">
+            <input type="hidden" name="markDetailId" th:value="${detail.markDetailId}">
+            <input type="hidden" name="page" value="0">
+        </form>
         <!-- Page content-->
         <section class="mt-5">
-            <div class="container">
+            <div class="container" style="padding-right: 25px;">
                 <!-- Contact form-->
-                <div class="rounded-3 px-md-5 mb-5">
+                <div class="rounded-3 px-md-5 mb-5" style="min-height: 600px;">
                     <div class="text-center mb-5">
                         <h1 class="fw-bolder">[[${detail.title}]]</h1>
                         <p class="lead fw-normal text-muted mb-0"
@@ -30,10 +34,13 @@
                             <a th:href="|/mark/${detail.markDetailId}/diary/new|"
                                class="btn btn-outline-primary text-decoration-none">다이어리 등록하기</a>
                         </div>
-                    </div>
-                    <div id="diarySite" class="row gx-5 justify-content-center mt-5"
-                         style="min-height: 400px; background-color: #fff;">
-                        <p class="align-self-center text-center">다이어리를 등록해주세요.</p>
+                        <div id="diarySite" class="row justify-content-center mt-5 bg-light"
+                             style="background-color: #fff; padding: 0;">
+                            <p class="align-self-center text-center">다이어리를 등록해주세요.</p>
+                        </div>
+                        <div class="card-footer" th:classappend="${0 == 0} ? 'd-none' : ''">
+                            <button id="moreDiaries" class="btn btn-secondary btn-lg btn-block" type="button">더보기</button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -53,22 +60,59 @@
     <script>
 
         const onReady = function() {
-
-            loadDiaryPageList();
+            loadDiaryPageList(true);
         }
 
-        const loadDiaryPageList = function() {
+        const loadDiaryPageList = function(isInit) {
 
-            const markDetailId = detail.markDetailId;
+            const markDetailId  = detail.markDetailId,
+                  $form          = getDiaryForm();
 
             if (!checkNullOrEmptyValue(markDetailId)) {
                 return false;
             }
 
+            if (isInit) {
+                $form.find("input[name='page']").val(0);
+            }
 
+            clearDiarySite();
+
+            $.ajax({
+                url: "/mark/" + markDetailId + "/diary",
+                method: 'GET',
+                data: $form.serialize(),
+                dataType: "html",
+                spin: false,
+                success: function (html) {
+                    if (isInit) {
+                        $("#diarySite").html(html);
+                    } else {
+                        $("#diarySite").append(html);
+                    }
+                }
+            });
         }
 
-        $(document).ready(onReady);
+        const moreDiaries = (e) => {
+            checkEvent(e);
+
+            const $form = getDiaryForm();
+            $form.find('input[name="page"]').val(Number($form.find('input[name="page"]').val()) + 1);
+
+            loadDiaryPageList(false);
+        }
+
+        const clearDiarySite = function() {
+            $('#diarySite').empty();
+        }
+
+        const getDiaryForm = () => {
+            return $("form[name='diaryForm']");
+        }
+
+        $(document).ready(onReady)
+            .on("click", "#moreDiaries", moreDiaries);
     </script>
 </section>
 </body>

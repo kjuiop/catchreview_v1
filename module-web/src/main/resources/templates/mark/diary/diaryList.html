@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="~{layout}">
+<div th:fragment="diaries" th:remove="tag">
+    <th:block th:each="d : ${diaries}">
+        <div class="row border rounded overflow-hidden flex-md-row shadow-sm h-md-250 bg-light" style="height: 230px;">
+            <div class="col-12 p-4 d-flex flex-column">
+                <h3 class="mb-0">[[${d.title}]]</h3>
+                <div class="mb-1 text-muted">Nov 12</div>
+                <p class="card-text" th:utext="${d.content}"></p>
+                <strong class="d-inline-block mb-2 text-primary">[[${#temporals.format(d.createdAt, 'YYYY-MM-dd HH:mm:ss')}]]</strong>
+<!--                <a th:href="|/mark/${d.markDetailId}/diary/${d.diaryId}|" class="stretched-link">Continue reading</a>-->
+            </div>
+        </div>
+    </th:block>
+</div>
