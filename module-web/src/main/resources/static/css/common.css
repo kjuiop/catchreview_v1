@@ -6,11 +6,20 @@
     display: none;
 }
 
+.display-flex-row {
+    display: flex;
+    flex-direction: row;
+}
+
 .display-flex-column {
     display: flex;
     flex-direction: column;
 }
 
 .no-left-padding {
+    padding-left: 0;
+}
+
+.no-padding {
     padding: 0;
 }
