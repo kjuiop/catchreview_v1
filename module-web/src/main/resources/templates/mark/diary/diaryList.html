@@ -9,10 +9,14 @@
         <div class="row border rounded bg-light no-padding mb-2">
             <div class="card no-padding">
                 <div class="card-body display-flex-column" style="padding-top: 30px;">
-                    <div class="display-flex-row" style="min-height: 100px; max-height: 200px;">
+                    <div class="display-flex-row" style="min-height: 100px; max-height: 200px; cursor:pointer;">
                         <div style="width: 80%;">
-                            <h5 class="card-title">[[${d.title}]]</h5>
-                            <div th:utext="${d.content}" style="word-break: break-all; overflow: hidden; max-height: 100px;"></div>
+                            <a th:href="|/mark/${d.markDetailId}/diary/${d.diaryId}|"
+                                class="text-decoration-none fw-normal" style="color: black;"
+                            >
+                                <h5 class="card-title">[[${d.title}]]</h5>
+                                <div th:utext="${d.content}" style="word-break: break-all; overflow: hidden; max-height: 100px;"></div>
+                            </a>
                         </div>
                         <div style="width: 20%;">
                             <img src="/images/star_logo.png" class="card-img-top justify-content-center" width="40" height="75" style="border-radius: 25px;">

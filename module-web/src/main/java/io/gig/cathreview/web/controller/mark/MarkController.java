@@ -28,7 +28,7 @@ public class MarkController {
     private final DiaryService diaryService;
 
     @GetMapping("view/diary/{markDetailId}")
-    public String diaryView(@PathVariable(required = true, name = "markDetailId") Long markDetailId,
+    public String markDiaryView(@PathVariable(required = true, name = "markDetailId") Long markDetailId,
                              Model model) {
 
         MarkDetailDto detail = markService.getMarkDetailDto(markDetailId);

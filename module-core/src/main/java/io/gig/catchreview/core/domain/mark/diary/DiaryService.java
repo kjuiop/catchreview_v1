@@ -1,6 +1,7 @@
 package io.gig.catchreview.core.domain.mark.diary;
 
 import io.gig.catchreview.core.domain.mark.diary.dto.DiaryCreateForm;
+import io.gig.catchreview.core.domain.mark.diary.dto.DiaryDetailDto;
 import io.gig.catchreview.core.domain.mark.diary.dto.DiaryListDto;
 import io.gig.catchreview.core.domain.mark.mark.MarkDetail;
 import io.gig.catchreview.core.domain.mark.mark.MarkService;
@@ -44,5 +45,10 @@ public class DiaryService {
     public Page<DiaryListDto> getDiaryPageList(Long markDetailId, PageRequest pageRequest, LoginUser loginUser) {
         Member loginMember = memberService.getUser(loginUser.getUsername());
         return queryRepository.getDiaryPageList(markDetailId, pageRequest, loginMember.getId());
+    }
+
+    @Transactional(readOnly = true)
+    public DiaryDetailDto getDiaryDetailDto(Long markDetailId, Long diaryId) {
+        return queryRepository.getDiaryDetailDto(markDetailId, diaryId);
     }
 }

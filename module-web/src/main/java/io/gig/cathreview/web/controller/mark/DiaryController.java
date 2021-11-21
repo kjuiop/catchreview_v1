@@ -3,8 +3,10 @@ package io.gig.cathreview.web.controller.mark;
 import io.gig.catchreview.core.domain.common.dto.BasePageDto;
 import io.gig.catchreview.core.domain.mark.diary.DiaryService;
 import io.gig.catchreview.core.domain.mark.diary.dto.DiaryCreateForm;
+import io.gig.catchreview.core.domain.mark.diary.dto.DiaryDetailDto;
 import io.gig.catchreview.core.domain.mark.diary.dto.DiaryListDto;
 import io.gig.catchreview.core.domain.mark.mark.dto.MarkCreateForm;
+import io.gig.catchreview.core.domain.mark.mark.dto.MarkDetailDto;
 import io.gig.catchreview.core.domain.user.CurrentUser;
 import io.gig.catchreview.core.domain.user.LoginUser;
 import lombok.RequiredArgsConstructor;
@@ -44,6 +46,18 @@ public class DiaryController {
         return "mark/diary/diaryList :: diaries";
     }
 
+    @GetMapping("{diaryId}")
+    public String diaryView(@PathVariable(required = true, name = "markDetailId") Long markDetailId,
+                            @PathVariable(required = true, name = "diaryId") Long diaryId,
+                            Model model) {
+
+        DiaryDetailDto detail = diaryService.getDiaryDetailDto(markDetailId, diaryId);
+
+        model.addAttribute("detail", detail);
+
+        return "mark/diary/view";
+    }
+
     @GetMapping("new")
     public String diaryCreateForm(@PathVariable(name = "markDetailId") Long markDetailId,
                                   Model model) {
@@ -65,9 +79,9 @@ public class DiaryController {
             return "redirect:/mark/" + markDetailId + "/diary";
         }
 
-        diaryService.createByMember(createForm, loginUser.getUsername());
+        Long diaryId = diaryService.createByMember(createForm, loginUser.getUsername());
 
-        return "redirect:/mark/view/" + markDetailId;
+        return "redirect:/mark/" + markDetailId + "/diary/" + diaryId;
     }
 
 }

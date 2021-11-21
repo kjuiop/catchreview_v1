@@ -7,6 +7,7 @@ import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import io.gig.catchreview.core.domain.common.types.YnType;
+import io.gig.catchreview.core.domain.mark.diary.dto.DiaryDetailDto;
 import io.gig.catchreview.core.domain.mark.diary.dto.DiaryListDto;
 import io.gig.catchreview.core.domain.mark.mark.dto.MarkCoordinateDto;
 import io.gig.catchreview.core.domain.mark.mark.dto.MarkDetailDto;
@@ -83,11 +84,44 @@ public class DiaryQueryRepository {
         return new PageImpl<>(fetchResults.getResults(), pageRequest, fetchResults.getTotal());
     }
 
+    public DiaryDetailDto getDiaryDetailDto(Long markDetailId, Long diaryId) {
+        DiaryDetailDto fetch = this.queryFactory
+                .select(Projections.constructor(DiaryDetailDto.class, diary))
+                .from(diary)
+                .where(
+                        diary.deleteYn.eq(YnType.N)
+                        , eqMarkDetailId(markDetailId)
+                        , eqDiaryId(diaryId))
+                .fetchOne();
+
+        if (fetch == null) {
+            throw new NotFoundException(MessageFormat.format("{0} 해당 내용을 찾을 수 없습니다.", diaryId));
+        }
+
+        return fetch;
+    }
+
     private BooleanExpression eqMarkDetailId(Long id) {
+        if (id == null) {
+            return null;
+        }
+
         return markDetail.id.eq(id);
     }
 
     private BooleanExpression eqMemberId(Long id) {
+        if (id == null) {
+            return null;
+        }
+
         return diary.createdByMember.id.eq(id);
+    }
+
+    private BooleanExpression eqDiaryId(Long id) {
+        if (id == null) {
+            return null;
+        }
+
+        return diary.id.eq(id);
     }
 }

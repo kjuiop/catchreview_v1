@@ -61,6 +61,10 @@ public class MarkQueryRepository {
     }
 
     private BooleanExpression eqMarkDetailId(Long id) {
+        if (id == null) {
+            return null;
+        }
+
         return markDetail.id.eq(id);
     }
 
