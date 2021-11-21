@@ -51,4 +51,9 @@ public class DiaryService {
     public DiaryDetailDto getDiaryDetailDto(Long markDetailId, Long diaryId) {
         return queryRepository.getDiaryDetailDto(markDetailId, diaryId);
     }
+
+    @Transactional(readOnly = true)
+    public long getDiaryCount(Long markDetailId) {
+        return queryRepository.getDiaryCount(markDetailId);
+    }
 }

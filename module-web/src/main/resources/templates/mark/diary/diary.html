@@ -38,7 +38,9 @@
                              style="padding: 0;">
                             <p class="align-self-center text-center">다이어리를 등록해주세요.</p>
                         </div>
-                        <div class="btn-group no-padding mt-3" role="group" aria-label="Basic outlined example">
+                        <div class="btn-group no-padding mt-3" role="group" aria-label="Basic outlined example"
+                             th:classappend="${diaryCount < 5} ? 'd-none' : ''"
+                        >
                             <button class="btn btn-outline-secondary">더보기</button>
                         </div>
                     </div>

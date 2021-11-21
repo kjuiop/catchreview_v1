@@ -5,6 +5,7 @@ import io.gig.catchreview.core.domain.mark.diary.DiaryService;
 import io.gig.catchreview.core.domain.mark.diary.dto.DiaryCreateForm;
 import io.gig.catchreview.core.domain.mark.diary.dto.DiaryDetailDto;
 import io.gig.catchreview.core.domain.mark.diary.dto.DiaryListDto;
+import io.gig.catchreview.core.domain.mark.diary.dto.DiarySearchDto;
 import io.gig.catchreview.core.domain.mark.mark.dto.MarkCreateForm;
 import io.gig.catchreview.core.domain.mark.mark.dto.MarkDetailDto;
 import io.gig.catchreview.core.domain.user.CurrentUser;
@@ -35,7 +36,7 @@ public class DiaryController {
 
     @GetMapping
     public String getDiaryList(@PathVariable(name = "markDetailId") Long markDetailId,
-                              BasePageDto page,
+                              DiarySearchDto page,
                               @CurrentUser LoginUser loginUser,
                               Model model) {
 

@@ -101,6 +101,17 @@ public class DiaryQueryRepository {
         return fetch;
     }
 
+    public long getDiaryCount(Long markDetailId) {
+
+        long count = queryFactory.selectFrom(diary)
+                .where(
+                        diary.deleteYn.eq(YnType.N)
+                        , diary.markDetail.id.eq(markDetailId))
+                .fetchCount();
+
+        return count;
+    }
+
     private BooleanExpression eqMarkDetailId(Long id) {
         if (id == null) {
             return null;

@@ -32,8 +32,10 @@ public class MarkController {
                              Model model) {
 
         MarkDetailDto detail = markService.getMarkDetailDto(markDetailId);
+        long diaryCount = diaryService.getDiaryCount(markDetailId);
 
         model.addAttribute("detail", detail);
+        model.addAttribute("diaryCount", diaryCount);
 
         return "mark/diary/diary";
     }
