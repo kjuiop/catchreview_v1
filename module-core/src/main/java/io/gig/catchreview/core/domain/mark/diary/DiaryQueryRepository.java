@@ -41,7 +41,7 @@ public class DiaryQueryRepository {
     public List<MarkCoordinateDto> getMarkListForMap() {
 
         BooleanBuilder where = new BooleanBuilder();
-        where.and(mark.deleteYn.eq(YnType.N));
+        where.and(notDeleted());
 
         JPAQuery<MarkCoordinateDto> contentQuery = this.queryFactory
                 .select(Projections.constructor(MarkCoordinateDto.class,
@@ -57,7 +57,7 @@ public class DiaryQueryRepository {
         MarkDetailDto fetch = this.queryFactory
                     .select(Projections.constructor(MarkDetailDto.class, markDetail))
                     .from(markDetail)
-                    .where(markDetail.deleteYn.eq(YnType.N)
+                    .where(notDeleted()
                             , eqMarkDetailId(markDetailId))
                     .fetchOne();
 
@@ -74,8 +74,9 @@ public class DiaryQueryRepository {
         QueryResults<DiaryListDto> fetchResults = this.queryFactory
                         .select(Projections.constructor(DiaryListDto.class, diary))
                         .from(diary)
-                        .where(eqMemberId(memberId),
-                                eqMarkDetailId(markDetailId))
+                        .where(notDeleted()
+                                , eqMemberId(memberId)
+                                , eqMarkDetailId(markDetailId))
                         .orderBy(diary.createdAt.desc())
                         .limit(pageRequest.getPageSize())
                         .offset(pageRequest.getOffset())
@@ -89,7 +90,7 @@ public class DiaryQueryRepository {
                 .select(Projections.constructor(DiaryDetailDto.class, diary))
                 .from(diary)
                 .where(
-                        diary.deleteYn.eq(YnType.N)
+                        notDeleted()
                         , eqMarkDetailId(markDetailId)
                         , eqDiaryId(diaryId))
                 .fetchOne();
@@ -104,12 +105,16 @@ public class DiaryQueryRepository {
     public long getDiaryCount(Long markDetailId) {
 
         long count = queryFactory.selectFrom(diary)
-                .where(
-                        diary.deleteYn.eq(YnType.N)
+                .where(notDeleted()
+                        , diary.deleteYn.eq(YnType.N)
                         , diary.markDetail.id.eq(markDetailId))
                 .fetchCount();
 
         return count;
+    }
+
+    private BooleanExpression notDeleted() {
+        return markDetail.deleteYn.eq(YnType.N);
     }
 
     private BooleanExpression eqMarkDetailId(Long id) {
