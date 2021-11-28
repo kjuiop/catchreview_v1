@@ -11,37 +11,37 @@
 <body>
 <div layout:fragment="content">
     <div th:replace="layout/fragments.html :: header(false)"></div>
-    <img src="/images/banner.png" class="img-fluid mt-5" alt="..." style="width: 100%; height: 300px;">
-    <main class="flex-shrink-0 bg-light">
+    <div th:replace="mark/fragments.html :: bannerImg"></div>
+    <main class="flex-shrink-0">
+        <form name="storeSearchForm" method="get">
+            <input type="hidden" name="markDetailId" th:value="${detail.markDetailId}">
+        </form>
         <!-- Page content-->
         <section class="mt-5">
-            <div class="container px-5">
+            <div class="container">
                 <!-- Contact form-->
                 <div class="rounded-3 px-md-5 mb-5">
-                    <div class="text-center mb-5">
-                        <h1 class="fw-bolder">[[${detail.title}]]</h1>
-                        <p class="lead fw-normal text-muted mb-0"
-                           th:if="${not #strings.isEmpty(detail.shortDescription)}"
-                        >
-                            [[${detail.shortDescription}]]</p>
-                    </div>
-                    <div class="row gx-5 justify-content-center">
-                        <ul class="nav nav-pills nav-justified">
-                            <li class="nav-item">
+
+                    <div th:replace="mark/fragments.html :: header"></div>
+
+                    <div class="row justify-content-center p-4" style="padding-bottom: 0;">
+                        <ul class="nav nav-pills nav-justified no-padding">
+                            <li class="nav-item border-ivory-color">
                                 <a class="nav-link active" aria-current="page" href="#">소개</a>
                             </li>
-                            <li class="nav-item">
+                            <li class="nav-item border-ivory-color">
                                 <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">메뉴</a>
                             </li>
-                            <li class="nav-item">
+                            <li class="nav-item border-ivory-color">
                                 <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">리뷰</a>
                             </li>
-                            <li class="nav-item">
+                            <li class="nav-item border-ivory-color">
                                 <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">프로모션</a>
                             </li>
                         </ul>
                     </div>
-                    <div class="row gx-5 justify-content-center mt-5" th:utext="${detail.content}" style="min-height: 300px;"></div>
+                    <div class="row p-4 justify-content-center contentSite" style="min-height: 300px; padding-top: 0;">
+                    </div>
                 </div>
             </div>
         </section>
@@ -52,6 +52,50 @@
     <script th:replace="layout/fragments :: attachment"></script>
     <script th:replace="layout/scriptFragments :: dateRangePicker"></script>
     <script th:replace="layout/scriptFragments :: tinyEditor"></script>
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        const detail = /*[[${detail}]]*/'';
+        /*]]>*/
+    </script>
+    <script>
+
+        const onReady = function() {
+            loadStoreIntro();
+        }
+
+        const loadStoreIntro = function() {
+
+            const   markDetailId   = detail.markDetailId,
+                    $form          = getStoreSearchForm();
+
+            if (!checkNullOrEmptyValue(markDetailId)) {
+                return false;
+            }
+
+            clearContentSite();
+
+            $.ajax({
+                url: "/mark/" + markDetailId + "/store/intro",
+                method: 'GET',
+                data: $form.serialize(),
+                dataType: "html",
+                spin: false,
+                success: function (html) {
+                    $(".contentSite").html(html);
+                }
+            });
+        }
+
+        const clearContentSite = function() {
+            $('.contentSite').empty();
+        }
+
+        const getStoreSearchForm = () => {
+            return $("form[name='storeSearchForm']");
+        }
+
+        $(document).ready(onReady);
+    </script>
 </section>
 </body>
 </html>

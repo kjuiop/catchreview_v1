@@ -41,6 +41,10 @@ public class MarkCreateForm {
 
     private String addressDetail;
 
+    private String tel;
+
+    private String workTime;
+
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     private LocalDateTime startDateTime;
 

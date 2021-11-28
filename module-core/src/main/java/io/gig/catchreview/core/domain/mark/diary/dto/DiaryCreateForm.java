@@ -23,6 +23,8 @@ public class DiaryCreateForm {
     @NotEmpty
     private String content;
 
+    private String bannerImg;
+
     public DiaryCreateForm initCreateForm(Long markDetailId) {
         return DiaryCreateForm.builder()
                 .markDetailId(markDetailId)

@@ -37,6 +37,8 @@ public class Diary extends BaseTimeEntity {
     @Lob
     private String content;
 
+    private String bannerImg;
+
     @Builder.Default
     @Enumerated(EnumType.STRING)
     @Column(length = 1)
@@ -70,6 +72,7 @@ public class Diary extends BaseTimeEntity {
                     .markDetail(markDetail)
                     .title(form.getTitle())
                     .content(form.getContent())
+                    .bannerImg(form.getBannerImg())
                     .createdByMember(loginUser)
                     .updatedByMember(loginUser)
                     .build();

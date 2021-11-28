@@ -58,6 +58,10 @@ public class MarkDetail extends BaseTimeEntity {
 
     private String addressDetail;
 
+    private String tel;
+
+    private String workTime;
+
     @Lob
     private String note;
 
@@ -112,6 +116,8 @@ public class MarkDetail extends BaseTimeEntity {
             detail.zipCode       = form.getZipCode();
             detail.address       = form.getAddress();
             detail.addressDetail = form.getAddressDetail();
+            detail.tel           = form.getTel();
+            detail.workTime      = form.getWorkTime();
         }
 
         return detail;

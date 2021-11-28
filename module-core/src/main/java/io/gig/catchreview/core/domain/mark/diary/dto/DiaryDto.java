@@ -24,6 +24,8 @@ public class DiaryDto {
 
     private String content;
 
+    private String bannerImg;
+
     private Long markDetailId;
 
     private LocalDateTime createdAt;
@@ -32,6 +34,7 @@ public class DiaryDto {
         this.diaryId        = d.getId();
         this.title          = d.getTitle();
         this.content        = d.getContent();
+        this.bannerImg      = d.getBannerImg();
         this.markDetailId   = d.getMarkDetail().getId();
         this.createdAt      = d.getCreatedAt();
     }

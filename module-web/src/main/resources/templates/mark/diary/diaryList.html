@@ -19,7 +19,7 @@
                             </a>
                         </div>
                         <div style="width: 20%;">
-                            <img src="/images/star_logo.png" class="card-img-top justify-content-center" width="40" height="75" style="border-radius: 25px;">
+                            <img th:src="${not #strings.isEmpty(d.bannerImg) ? d.bannerImg : '/images/star_logo.png'}" class="card-img-top justify-content-center" width="40" height="75" style="border-radius: 25px;">
                         </div>
                     </div>
                     <span class="d-inline-block mb-2 text-black col-12">

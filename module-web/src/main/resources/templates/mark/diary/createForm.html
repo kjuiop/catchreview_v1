@@ -25,6 +25,7 @@
                         <div class="col-lg-8 col-xl-6">
                             <form id="markCreateForm" class="needs-validation" th:action="|/mark/${diaryCreateForm.markDetailId}/diary/create|" th:object="${diaryCreateForm}" method="post" novalidate>
                                 <input type="hidden" name="markDetailId" th:field="*{markDetailId}" />
+                                <input type="hidden" name="bannerImg" />
 
                                 <div class="form-group mb-4">
                                     <label class="mb-1" for="title">제목</label>

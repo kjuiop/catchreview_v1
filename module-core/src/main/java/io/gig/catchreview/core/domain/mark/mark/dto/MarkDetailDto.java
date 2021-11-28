@@ -28,6 +28,14 @@ public class MarkDetailDto extends MarkDto {
 
     private String bannerImg;
 
+    private String tel;
+
+    private String workTime;
+
+    private String address;
+
+    private String addressDetail;
+
     public MarkDetailDto(MarkDetail md) {
         super(md.getMark());
 
@@ -37,5 +45,9 @@ public class MarkDetailDto extends MarkDto {
         this.shortDescription   = md.getShortDescription();
         this.content            = md.getContent();
         this.bannerImg          = md.getBannerImg();
+        this.tel                = md.getTel();
+        this.workTime           = md.getWorkTime();
+        this.address            = md.getAddress();
+        this.addressDetail      = md.getAddressDetail();
     }
 }
