@@ -5,25 +5,25 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorator="~{layout}">
 <div th:fragment="review" th:remove="tag">
-    <div class="row">
+    <div class="row mb-3">
         <div class="col-8"></div>
         <div class="col-4">
-            <a href="/" class="btn btn-outline-primary text-decoration-none" style="height: 40px;">
+            <a th:href="|/mark/${markDetailId}/store/review/new|" class="btn btn-outline-primary text-decoration-none" style="height: 40px;">
                 리뷰 등록하기
             </a>
         </div>
     </div>
-    <th:block th:if="${not #lists.isEmpty(reviewList.content)}">
-        <th:block th:each="r : ${reviewList.content}">
+    <th:block th:if="${not #lists.isEmpty(reviewList)}">
+        <th:block th:each="r : ${reviewList}">
             <div class="row border rounded bg-light no-padding mb-2">
                 <div class="card no-padding">
                     <div class="card-body display-flex-column" style="padding-top: 30px;">
                         <div class="display-flex-row" style="min-height: 100px; max-height: 200px; cursor:pointer;">
                             <div style="width: 80%;">
-                                <a th:href="|/mark/${r.markDetailId}/review/${r.markDetailId}|"
+                                <a th:href="|/mark/${r.markDetailId}/store/review/${r.reviewId}|"
                                    class="text-decoration-none fw-normal" style="color: black;"
                                 >
-                                    <h5 class="card-title">[[${d.title}]]</h5>
+                                    <h5 class="card-title">[[${r.title}]]</h5>
                                     <div th:utext="${r.content}" style="word-break: break-all; overflow: hidden; max-height: 100px;"></div>
                                 </a>
                             </div>
@@ -32,7 +32,7 @@
                             </div>
                         </div>
                         <span class="d-inline-block mb-2 text-black col-12">
-                        [[${#temporals.format(d.createdAt, 'YYYY-MM-dd HH:mm')}]]
+                        [[${#temporals.format(r.createdAt, 'YYYY-MM-dd HH:mm')}]]
                     </span>
                     </div>
                 </div>

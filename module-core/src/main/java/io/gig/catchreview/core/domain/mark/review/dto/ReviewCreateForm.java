@@ -26,8 +26,8 @@ public class ReviewCreateForm {
 
     private String bannerImg;
 
-    public DiaryCreateForm initCreateForm(Long markDetailId) {
-        return DiaryCreateForm.builder()
+    public ReviewCreateForm initCreateForm(Long markDetailId) {
+        return ReviewCreateForm.builder()
                 .markDetailId(markDetailId)
                 .build();
     }

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="~{layout}">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div th:replace="layout/fragments.html :: header(false)"></div>
+    <main class="flex-shrink-0 bg-light mt-5">
+        <!-- Page content-->
+        <section class="mt-3">
+            <div class="container px-5">
+                <!-- Contact form-->
+                <div class="rounded-3 py-5 px-md-5">
+                    <div class="text-center mb-5">
+                        <h1 class="fw-bolder">[[${detail.title}]]</h1>
+                        <p class="lead fw-normal text-muted mb-0">
+                            [[${#temporals.format(detail.createdAt, 'YYYY-MM-dd HH:mm')}]]
+                        </p>
+                    </div>
+                    <div class="row gx-5 justify-content-center no-padding" th:utext="${detail.content}"
+                        style="background-color: #fff; border-radius: 10px; min-height: 500px; padding-top: 20px;"
+                    >
+                    </div>
+                    <div class="btn-group mt-3 col-12" role="group" aria-label="Basic outlined example">
+                        <a th:href="|/mark/view/store/${detail.markDetailId}|"
+                           class="btn btn-outline-primary text-decoration-none">목록</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+</div>
+
+<section layout:fragment="script">
+    <script th:replace="layout/fragments :: attachment"></script>
+    <script th:replace="layout/scriptFragments :: tinyEditor"></script>
+</section>
+</body>
+</html>

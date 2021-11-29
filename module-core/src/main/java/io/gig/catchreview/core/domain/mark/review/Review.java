@@ -3,6 +3,7 @@ package io.gig.catchreview.core.domain.mark.review;
 import io.gig.catchreview.core.domain.common.BaseTimeEntity;
 import io.gig.catchreview.core.domain.common.types.YnType;
 import io.gig.catchreview.core.domain.mark.mark.MarkDetail;
+import io.gig.catchreview.core.domain.mark.review.dto.ReviewCreateForm;
 import io.gig.catchreview.core.domain.user.member.Member;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
@@ -53,4 +54,18 @@ public class Review extends BaseTimeEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "updated_by_member_id")
     private Member updatedByMember;
+
+    public static Review createByMember(ReviewCreateForm form,
+                                        MarkDetail markDetail,
+                                        Member loginMember) {
+
+        return Review.builder()
+                .markDetail(markDetail)
+                .title(form.getTitle())
+                .content(form.getContent())
+                .bannerImg(form.getBannerImg())
+                .createdByMember(loginMember)
+                .updatedByMember(loginMember)
+                .build();
+    }
 }
