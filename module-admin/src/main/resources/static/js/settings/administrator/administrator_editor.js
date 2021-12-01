@@ -1,4 +1,4 @@
-var onReady = function() {
+const onReady = function() {
     var $frm = $('form[name="frmRegister"]');
     console.log("dto", dto);
     loadRole();
@@ -6,7 +6,7 @@ var onReady = function() {
     isModify($frm, 'adminId') ? updateValidate($frm) : createValidate($frm);
 }
 
-var createValidate = function($frm) {
+const createValidate = function($frm) {
 
     $.validator.setDefaults({
         onkeyup:false,
@@ -79,7 +79,7 @@ var createValidate = function($frm) {
     });
 }
 
-var updateValidate = function($frm) {
+const updateValidate = function($frm) {
 
     $.validator.setDefaults({
         onkeyup:false,
@@ -126,7 +126,7 @@ var updateValidate = function($frm) {
     });
 }
 
-var loadRole = function($frm) {
+const loadRole = function($frm) {
 
     if (!checkNullOrEmptyValue(dto)) {
         return;
@@ -140,7 +140,7 @@ var loadRole = function($frm) {
     }
 }
 
-var addRole = function(e) {
+const addRole = function(e) {
     e.preventDefault();
 
     var role = $('#exclude-role option:checked').val();
@@ -148,7 +148,7 @@ var addRole = function(e) {
     $('#include-role option[value="' + role + '"]').show();
 }
 
-var removeRole = function(e) {
+const removeRole = function(e) {
     e.preventDefault();
 
     var role = $('#include-role option:checked').val();
@@ -156,10 +156,10 @@ var removeRole = function(e) {
     $('#include-role option[value="' + role + '"]').hide();
 };
 
-var save = function($frm) {
+const save = function($frm) {
 
-    var formMethod = isModify($frm, 'adminId') ? 'put' : 'post';
-    var param = serializeObject({form:$frm[0]}).json();
+    let formMethod = isModify($frm, 'adminId') ? 'put' : 'post';
+    let param = serializeObject({form:$frm[0]}).json();
     param['roleNames'] = getRoleNames();
     console.log("params", param);
 
@@ -181,7 +181,7 @@ var save = function($frm) {
     });
 }
 
-var checkDuplicateData = function(e) {
+const checkDuplicateData = function(e) {
     e.preventDefault();
 
     if (dto.adminId != null) {
@@ -256,7 +256,7 @@ const checkValidPassword = function() {
 
 };
 
-var getRoleNames = function() {
+const getRoleNames = function() {
     var roleNames = [];
 
     if ($('#include-role').length > 0) {

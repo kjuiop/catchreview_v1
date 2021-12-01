@@ -23,20 +23,19 @@
                     </div>
                     <div class="row gx-5 justify-content-center">
                         <div class="col-lg-8 col-xl-6">
-                            <form id="markCreateForm" class="needs-validation" th:action="|/mark/${reviewCreateForm.markDetailId}/store/review/create|" th:object="${reviewCreateForm}" method="post" novalidate>
+                            <form id="reviewCreateForm" class="needs-validation" name="reviewCreateForm" th:action="|/mark/${reviewCreateForm.markDetailId}/store/review/create|" th:object="${reviewCreateForm}" method="post" novalidate>
                                 <input type="hidden" name="markDetailId" th:field="*{markDetailId}" />
-                                <input type="hidden" name="bannerImg" />
+
+<!--                                <div class="form-group mb-4">-->
+<!--                                    <label class="mb-1" for="title">제목</label>-->
+<!--                                    <input id="title" th:field="*{title}" type="text" class="form-control" name="title"-->
+<!--                                           aria-describedby="contactHelp" required max="500" placeholder="리뷰 제목을 입력해주세요.">-->
+<!--                                    <small class="invalid-feedback">리뷰 제목을 입력해주세요.</small>-->
+<!--                                    <small class="form-text text-danger" th:if="${#fields.hasErrors('title')}" th:errors="*{title}">Title Error</small>-->
+<!--                                </div>-->
 
                                 <div class="form-group mb-4">
-                                    <label class="mb-1" for="title">제목</label>
-                                    <input id="title" th:field="*{title}" type="text" class="form-control" name="title"
-                                           aria-describedby="contactHelp" required max="500" placeholder="다이어리 제목을 입력해주세요.">
-                                    <small class="invalid-feedback">리뷰 제목을 입력해주세요.</small>
-                                    <small class="form-text text-danger" th:if="${#fields.hasErrors('title')}" th:errors="*{title}">Title Error</small>
-                                </div>
-
-                                <div class="form-group mb-4">
-                                    <label class="mb-1" for="title">이미지</label>
+                                    <label class="mb-1" for="carouselExampleControls">이미지</label>
                                     <div class="thumbnailWrapper attachment display-flex-column">
                                         <div class="thumbnailBtnSite">
                                             <button id="attachFile" type="button" class="btn btn-outline-primary thumbnailUpload" style="font-size: 12px;">
@@ -44,18 +43,29 @@
                                                 업로드
                                             </button>
                                         </div>
-                                        <div class="mailbox-attachments clearfix imagePanel" style="display: inline-block"></div>
+                                        <div id="carouselExampleControls" class="carousel slide mt-3" data-bs-ride="carousel" data-bs-interval="false">
+                                            <div class="carousel-inner imagePanel">
+                                            </div>
+                                            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+                                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                                <span class="visually-hidden">Previous</span>
+                                            </button>
+                                            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+                                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                                <span class="visually-hidden">Next</span>
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
 
                                 <div class="form-group mb-3">
                                     <label for="content">내용</label>
-                                    <textarea id="content" th:field="*{content}" class="editor form-control"
+                                    <textarea id="content" th:field="*{content}" class="form-control" rows="7" name="content"
                                               placeholder="리뷰를 적어주세요." aria-describedby="contentHelp" required></textarea>
                                     <small class="form-text text-danger" th:if="${#fields.hasErrors('content')}" th:errors="*{content}">Content Error</small>
                                 </div>
 
-                                <div class="d-grid"><button class="btn btn-primary btn-lg" id="submitButton" type="submit">작성하기</button></div>
+                                <div class="d-grid"><button class="btn btn-primary btn-lg btnSubmit" type="button">작성하기</button></div>
                             </form>
                         </div>
                     </div>
@@ -67,7 +77,6 @@
 
 <section layout:fragment="script">
     <script th:replace="layout/fragments :: attachment"></script>
-    <script th:replace="layout/scriptFragments :: tinyEditor"></script>
     <script>
 
         const onReady = function() {
@@ -85,39 +94,86 @@
 
                     if (data.status === 200) {
 
-                        $('.thumbnailBtnSite').addClass('display-none');
-
-                        const   fullPath               = data.responseText,
+                        const   fullPath            = data.responseText,
                                 $thumbnailWrapper   = $this.closest('.thumbnailWrapper'),
                                 $thumbnailPanel     = $thumbnailWrapper.find('.imagePanel');
 
-                        let tag                     = drawImgTag(fullPath);
+                        let tag                     = drawSlideImgTag(fullPath);
 
                         $thumbnailPanel.append(tag);
-                        $('input[name="bannerImg"]').val(fullPath);
+
+                        $('.carousel-item').removeClass('active');
+                        $('.carousel-item').last().addClass('active');
                     }
                 }
             });
         };
 
-        const drawImgTag = function(fullPath) {
+        const drawSlideImgTag = function(fullPath) {
             let tag = '';
 
-            tag += '<div class="thumbnailInfo" style="display: inline-block;">';
-            tag += '<div class="" style="margin-bottom: 10px;">';
-            tag += '<div class="image-panel" style="cursor: pointer; position: relative;">';
-            tag +=       '<img class="img-fluid" src="' + fullPath + '">';
-            tag +=       '<button type="button" class="btn btn-warning update-image thumbnailUpload" style="position: absolute; right: 38px;"><i class="fas fa-wrench" aria-hidden="true"></i></button>';
-            tag +=       '<button type="button" class="btn btn-danger pull-right remove-image" style="position: absolute; right: 0;"><i class="fas fa-times" aria-hidden="true"></i></button>';
-            tag += '</div>';
-            tag += '</div>';
+            tag += '<div class="card carousel-item">';
+            tag +=      '<img src="' + fullPath + '" class="d-block w-100 card-img-top" style="height: 200px;">';
+            tag +=          '<div class="card-body">';
+            tag +=              '<textarea class="form-control" rows="5" name="reviewText"></textarea>';
+            tag +=          '</div>';
             tag += '</div>';
 
             return tag;
         };
 
+        const save = function() {
+
+            const   $form           = $('form[name="reviewCreateForm"]'),
+                    markDetailId    = $form.find('input[name="markDetailId"]').val();
+
+            let param = {
+                "markDetailId"    : markDetailId,
+                "content"         : $form.find('textarea[name="content"]').val(),
+            }
+
+            let reviewCardList = [];
+
+            $('.imagePanel .carousel-item').each(function(idx, item){
+
+                const me = $(item);
+
+                let imgData = {
+                    "reviewImg"   : me.find('img').attr('src'),
+                    "reviewText"  : me.find('textarea').val()
+                }
+
+                reviewCardList.push(imgData);
+            });
+
+            if (reviewCardList.length > 0) {
+                param['bannerImg'] = reviewCardList[0].reviewImg;
+            }
+
+            param['reviewCardList'] = reviewCardList;
+
+            console.log("params", param);
+
+            $.ajax({
+                url: "/mark/" + markDetailId + "/store/review/create",
+                method: 'post',
+                type: "json",
+                contentType: "application/json",
+                data: JSON.stringify(param),
+                success: function (result) {
+                    location.reload();
+                },
+                error:function(error){
+                    ajaxErrorFieldByText(error);
+                }
+            });
+
+        }
+
         $(document).ready(onReady)
-            .on('click', '.thumbnailUpload', imgUpload);
+            .on('click', '.thumbnailUpload', imgUpload)
+            .on('click', '.btnSubmit', save)
+        ;
     </script>
 </section>
 </body>

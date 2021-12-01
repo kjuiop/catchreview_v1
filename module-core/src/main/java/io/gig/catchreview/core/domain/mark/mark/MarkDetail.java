@@ -7,6 +7,7 @@ import io.gig.catchreview.core.domain.mark.mark.dto.MarkCreateForm;
 import io.gig.catchreview.core.domain.mark.mark.types.ApplyStatus;
 import io.gig.catchreview.core.domain.mark.mark.types.MarkType;
 import io.gig.catchreview.core.domain.mark.mark.types.PublishStatus;
+import io.gig.catchreview.core.domain.mark.review.Review;
 import io.gig.catchreview.core.domain.user.administrator.Administrator;
 import io.gig.catchreview.core.domain.user.member.Member;
 import lombok.*;
@@ -78,6 +79,10 @@ public class MarkDetail extends BaseTimeEntity {
     @Builder.Default
     @OneToMany(mappedBy = "markDetail", cascade = {CascadeType.MERGE, CascadeType.PERSIST}, fetch = FetchType.LAZY)
     private List<Diary> diaries = new ArrayList<>();
+
+    @Builder.Default
+    @OneToMany(mappedBy = "markDetail", cascade = {CascadeType.MERGE, CascadeType.PERSIST}, fetch = FetchType.LAZY)
+    private List<Review> reviews = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "created_by_admin_id")

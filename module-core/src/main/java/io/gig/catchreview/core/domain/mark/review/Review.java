@@ -9,6 +9,8 @@ import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author : Jake
@@ -47,6 +49,10 @@ public class Review extends BaseTimeEntity {
     @Column(length = 1)
     private YnType deleteYn = YnType.N;
 
+    @Builder.Default
+    @OneToMany(mappedBy = "review", cascade = {CascadeType.MERGE, CascadeType.PERSIST}, fetch = FetchType.LAZY)
+    private List<ReviewCard> reviewCardList = new ArrayList<>();
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "created_by_member_id")
     private Member createdByMember;
@@ -61,11 +67,14 @@ public class Review extends BaseTimeEntity {
 
         return Review.builder()
                 .markDetail(markDetail)
-                .title(form.getTitle())
                 .content(form.getContent())
                 .bannerImg(form.getBannerImg())
                 .createdByMember(loginMember)
                 .updatedByMember(loginMember)
                 .build();
+    }
+
+    public void addReviewCard(List<ReviewCard> reviewCardList) {
+        this.reviewCardList = reviewCardList;
     }
 }

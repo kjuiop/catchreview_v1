@@ -13,13 +13,11 @@ import io.gig.catchreview.core.domain.user.CurrentUser;
 import io.gig.catchreview.core.domain.user.LoginUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
@@ -70,20 +68,21 @@ public class StoreController {
     }
 
     @PostMapping("review/create")
-    public String create(       @PathVariable(name = "markDetailId") Long markDetailId,
-                                @Valid ReviewCreateForm createForm,
-                                @CurrentUser LoginUser loginUser,
-                                BindingResult errors,
-                                RedirectAttributes redirectAttributes) {
+    @ResponseBody
+    public ResponseEntity create(   @PathVariable(name = "markDetailId") Long markDetailId,
+                                    @Valid @RequestBody ReviewCreateForm createForm,
+                                    @CurrentUser LoginUser loginUser,
+                                    BindingResult errors,
+                                    RedirectAttributes redirectAttributes) {
 
 
         if (errors.hasErrors()) {
-            return "redirect:/mark/view/store/" + markDetailId;
+            return ResponseEntity.badRequest().body(errors.getAllErrors());
         }
 
         Long reviewId = reviewService.createByMember(createForm, loginUser.getUsername());
 
-        return "redirect:/mark/" + markDetailId + "/store/review/" + reviewId;
+        return ResponseEntity.ok().body(reviewId);
     }
 
     @GetMapping("review/{reviewId}")

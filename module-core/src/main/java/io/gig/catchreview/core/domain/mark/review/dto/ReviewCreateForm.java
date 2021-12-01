@@ -1,9 +1,10 @@
 package io.gig.catchreview.core.domain.mark.review.dto;
 
-import io.gig.catchreview.core.domain.mark.diary.dto.DiaryCreateForm;
 import lombok.*;
 
 import javax.validation.constraints.NotEmpty;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author : Jake
@@ -18,13 +19,14 @@ public class ReviewCreateForm {
 
     private Long markDetailId;
 
-    @NotEmpty
     private String title;
 
     @NotEmpty
     private String content;
 
     private String bannerImg;
+
+    private List<ReviewCardCreateForm> reviewCardList = new ArrayList<>();
 
     public ReviewCreateForm initCreateForm(Long markDetailId) {
         return ReviewCreateForm.builder()
