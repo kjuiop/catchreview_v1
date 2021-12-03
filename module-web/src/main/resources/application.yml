@@ -9,3 +9,15 @@ spring:
     multipart:
       max-file-size: 10MB
       max-request-size: 10MB
+
+mail:
+  host: smtp.gmail.com
+  port: 587
+  username: catchreview21@gmail.com
+  password: etdfetuztejhosea
+  properties:
+    mail:
+      smtp:
+        auth: true
+        starttls:
+          enable: true

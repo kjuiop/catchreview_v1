@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>$Title$</title>
+</head>
+<body>
+<div>
+    <h1>이메일 인증을 완료해주세요.</h1>
+</div>
+<div>
+    <p>
+        안녕하세요.<br>
+        catch review 이용해주셔서 감사합니다.
+        아래 [인증하기] 버튼을 클릭하면 인증이 완료됩니다.
+    </p>
+</div>
+<div>
+    <a class="btn btn-outline-success btn-block" th:href="|${domain}email-verify?code=${emailValidCode}&username=${username}|">인증하기</a>
+</div>
+<div>
+    <div>
+        <a href="https://catchreview.io">catch review 바로가기</a>
+    </div>
+</div>
+</body>
+</html>

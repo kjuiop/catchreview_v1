@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{email_templates/email_layout}">
+<head>
+    <meta charset="UTF-8">
+    <title>$Title$</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="card">
+        <div class="card-body">
+            <div class="row">
+                <h2>catchreview  가입을 환영합니다.</h2>
+            </div>
+        </div>
+    </div>
+
+    <h1 th:text="${code}">222222</h1>
+    <h1 th:text="${username}">333333</h1>
+    <a th:href="|${domain}email-verify?code=${emailValidCode}&username=${username}|">인증하기</a>
+</div>
+</body>
+</html>

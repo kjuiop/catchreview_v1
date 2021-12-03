@@ -172,8 +172,6 @@ public class MemberService implements UserService<Member> {
     }
 
     /**
-     * 인코드 할때마다 값이 달라짐
-     * 소셜로그인 했을때는 비밀번호 변경 어떻게 ?
      * @param username
      * @param passwordForm
      */
