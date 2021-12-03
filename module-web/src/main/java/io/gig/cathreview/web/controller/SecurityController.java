@@ -33,6 +33,7 @@ public class SecurityController {
     private static final String VERIFY_FAIL_MESSAGE = "인증에 실패하였습니다.";
     private static final String ADDITIONAL_COMPLETE_MESSAGE = "계정정보가 정상적으로 업데이트되었습니다. 다시 로그인해주세요.";
 
+
     @RequestMapping("login")
     public String login(HttpServletRequest request,
                         HttpSession session,
