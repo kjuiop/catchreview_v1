@@ -95,7 +95,7 @@ public class MemberService implements UserService<Member> {
         newMember.addMemberRole(memberRole);
         memberRepository.save(newMember);
 
-        return newMember.getNickname();
+        return newMember.getUsername();
     }
 
     @Transactional
@@ -217,9 +217,10 @@ public class MemberService implements UserService<Member> {
     }
 
 
-    public void sendVerifyMail(Member newMember) {
+    public void sendVerifyMail(String username) {
 
-        EmailDto emailDto = EmailDto.create(newMember.getUsername(), EmailInfo.VERIFY, objectMapper.convertValue(newMember, Map.class));
+        Member findMember = getUser(username);
+        EmailDto emailDto = EmailDto.create(findMember.getUsername(), EmailInfo.VERIFY, objectMapper.convertValue(findMember, Map.class));
 
         eventPublisher.publishEvent(emailDto);
     }

@@ -16,7 +16,7 @@ public enum EmailInfo {
 
     VERIFY("verify", "[CatchReview] 이메일 인증을 완료해주세요."),
 
-    REVERIFY("reverify", "[CatchReview] 이메일 재인증을 완료해주세요."),
+    RE_VERIFY("reVerify", "[CatchReview] 이메일 재인증을 완료해주세요."),
 
     FORGOT_PASSWORD("forgot_password", "[CatchReview] 패스워드 찾기 메일입니다. 🔍");
 

@@ -57,7 +57,8 @@ public class SecurityController {
             return "security/sign-up";
         }
 
-        String nickname = memberService.signUp(signUpForm);
+        String username = memberService.signUp(signUpForm);
+        memberService.sendVerifyMail(username);
 
         redirectAttributes.addFlashAttribute("message", SIGN_UP_COMPLETE_MESSAGE);
 
