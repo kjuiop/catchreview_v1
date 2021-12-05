@@ -12,7 +12,11 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ReviewListDto extends ReviewDto {
 
+    private String nickname;
+
     public ReviewListDto(Review r) {
         super(r);
+
+        this.nickname = r.getCreatedByMember().getNickname();
     }
 }

@@ -11,31 +11,42 @@
 <body>
 <div layout:fragment="content">
     <div th:replace="layout/fragments.html :: header(false)"></div>
-    <main class="flex-shrink-0 bg-light mt-5">
+    <main class="flex-shrink-0 mt-5">
         <!-- Page content-->
         <section class="mt-3">
-            <div class="container px-5">
-                <!-- Contact form-->
-                <div class="rounded-3 py-5 px-md-5">
-                    <div class="text-center mb-5">
-                        <h1 class="fw-bolder">리뷰 작성</h1>
-                        <p class="lead fw-normal text-muted mb-0">나날의 기억들을 기록해보세요🗽</p>
+            <div class="container px-1 mt-5">
+                <div class="row">
+                    <div class="col-3">
+                        <img th:src="${not #strings.isEmpty(detail.bannerImg) ? detail.bannerImg : '/images/banner.png'}" class="img-fluid" alt="..." style="width: 110px; height: 90px;">
                     </div>
+                    <div class="col-9 display-flex-column pt-2">
+                        <h5 class="review-title">[[${detail.title}]]</h5>
+                        <span>[[${detail.shortDescription}]]</span>
+                        <span>3점 보통이에요</span>
+                    </div>
+                </div>
+            </div>
+            <div class="divider"></div>
+            <div class="container px-1">
+                <!-- Contact form-->
+                <div class="rounded-3 py-1 px-md-1">
                     <div class="row gx-5 justify-content-center">
                         <div class="col-lg-8 col-xl-6">
                             <form id="reviewCreateForm" class="needs-validation" name="reviewCreateForm" th:action="|/mark/${reviewCreateForm.markDetailId}/store/review/create|" th:object="${reviewCreateForm}" method="post" novalidate>
                                 <input type="hidden" name="markDetailId" th:field="*{markDetailId}" />
 
-<!--                                <div class="form-group mb-4">-->
-<!--                                    <label class="mb-1" for="title">제목</label>-->
-<!--                                    <input id="title" th:field="*{title}" type="text" class="form-control" name="title"-->
-<!--                                           aria-describedby="contactHelp" required max="500" placeholder="리뷰 제목을 입력해주세요.">-->
-<!--                                    <small class="invalid-feedback">리뷰 제목을 입력해주세요.</small>-->
-<!--                                    <small class="form-text text-danger" th:if="${#fields.hasErrors('title')}" th:errors="*{title}">Title Error</small>-->
-<!--                                </div>-->
+                                <div class="form-group mb-4 pt-3">
+                                    <p class="review-title text-center">상세한 후기를 적어주세요.</p>
+                                </div>
+
+                                <div class="form-group mb-5">
+                                    <textarea id="content" th:field="*{content}" class="form-control" rows="7" name="content"
+                                              placeholder="리뷰를 적어주세요." aria-describedby="contentHelp" required></textarea>
+                                    <small class="form-text text-danger" th:if="${#fields.hasErrors('content')}" th:errors="*{content}">Content Error</small>
+                                </div>
 
                                 <div class="form-group mb-4">
-                                    <label class="mb-1" for="carouselExampleControls">이미지</label>
+                                    <label class="mb-1" for="imgSection">이미지</label>
                                     <div class="thumbnailWrapper attachment display-flex-column">
                                         <div class="thumbnailBtnSite">
                                             <button id="attachFile" type="button" class="btn btn-outline-primary thumbnailUpload" style="font-size: 12px;">
@@ -43,26 +54,22 @@
                                                 업로드
                                             </button>
                                         </div>
-                                        <div id="carouselExampleControls" class="carousel slide mt-3" data-bs-ride="carousel" data-bs-interval="false">
-                                            <div class="carousel-inner imagePanel">
-                                            </div>
-                                            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
-                                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                                <span class="visually-hidden">Previous</span>
-                                            </button>
-                                            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
-                                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                                <span class="visually-hidden">Next</span>
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
+                                        <div id="imgSection" class="imagePanel mt-3">
 
-                                <div class="form-group mb-3">
-                                    <label for="content">내용</label>
-                                    <textarea id="content" th:field="*{content}" class="form-control" rows="7" name="content"
-                                              placeholder="리뷰를 적어주세요." aria-describedby="contentHelp" required></textarea>
-                                    <small class="form-text text-danger" th:if="${#fields.hasErrors('content')}" th:errors="*{content}">Content Error</small>
+                                        </div>
+<!--                                        <div id="carouselExampleControls" class="carousel slide mt-3" data-bs-ride="carousel" data-bs-interval="false">-->
+<!--                                            <div class="carousel-inner imagePanel">-->
+<!--                                            </div>-->
+<!--                                            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">-->
+<!--                                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>-->
+<!--                                                <span class="visually-hidden">Previous</span>-->
+<!--                                            </button>-->
+<!--                                            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">-->
+<!--                                                <span class="carousel-control-next-icon" aria-hidden="true"></span>-->
+<!--                                                <span class="visually-hidden">Next</span>-->
+<!--                                            </button>-->
+<!--                                        </div>-->
+                                    </div>
                                 </div>
 
                                 <div class="d-grid"><button class="btn btn-primary btn-lg btnSubmit" type="button">작성하기</button></div>
@@ -98,7 +105,7 @@
                                 $thumbnailWrapper   = $this.closest('.thumbnailWrapper'),
                                 $thumbnailPanel     = $thumbnailWrapper.find('.imagePanel');
 
-                        let tag                     = drawSlideImgTag(fullPath);
+                        let tag                     = drawImgTag(fullPath);
 
                         $thumbnailPanel.append(tag);
 
@@ -107,6 +114,21 @@
                     }
                 }
             });
+        };
+
+
+        const drawImgTag = function(fullPath) {
+            let tag = '';
+
+            tag += '<div class="thumbnailInfo" style="display: inline-block; width: 90px; height: 90px; margin-right: 8px;">';
+            tag += '<input type="hidden" name="bannerImg" />';
+            tag += '<div class="image-panel" style="cursor: pointer; position: relative; width: 100%; height: 100%;">';
+            tag +=       '<img class="img-fluid" src="' + fullPath + '" style="width: 100%; height: 100%;">';
+            tag +=       '<button type="button" class="btn-sm btn-danger pull-right remove-image" style="position: absolute; right: -1px;"><i class="fas fa-times" aria-hidden="true"></i></button>';
+            tag += '</div>';
+            tag += '</div>';
+
+            return tag;
         };
 
         const drawSlideImgTag = function(fullPath) {
@@ -134,13 +156,12 @@
 
             let reviewCardList = [];
 
-            $('.imagePanel .carousel-item').each(function(idx, item){
+            $('.imagePanel .thumbnailInfo').each(function(idx, item){
 
                 const me = $(item);
 
                 let imgData = {
-                    "reviewImg"   : me.find('img').attr('src'),
-                    "reviewText"  : me.find('textarea').val()
+                    "reviewImg"   : me.find('img').attr('src')
                 }
 
                 reviewCardList.push(imgData);

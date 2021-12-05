@@ -62,6 +62,9 @@ public class StoreController {
     public String reviewCreateForm(@PathVariable(name = "markDetailId") Long markDetailId,
                                   Model model) {
 
+        MarkDetailDto detail = markService.getMarkDetailDto(markDetailId);
+
+        model.addAttribute("detail", detail);
         model.addAttribute("reviewCreateForm", new ReviewCreateForm().initCreateForm(markDetailId));
 
         return "mark/store/reviewCreateForm";

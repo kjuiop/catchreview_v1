@@ -17,23 +17,25 @@
         <th:block th:each="r : ${reviewList}">
             <div class="row border rounded bg-light no-padding mb-2">
                 <div class="card no-padding">
-                    <div class="card-body display-flex-column" style="padding-top: 30px;">
-                        <div class="display-flex-row" style="min-height: 100px; max-height: 200px; cursor:pointer;">
-                            <div style="width: 80%;">
-                                <a th:href="|/mark/${r.markDetailId}/store/review/${r.reviewId}|"
-                                   class="text-decoration-none fw-normal" style="color: black;"
-                                >
-                                    <h5 class="card-title">[[${r.title}]]</h5>
-                                    <div th:utext="${r.content}" style="word-break: break-all; overflow: hidden; max-height: 100px;"></div>
-                                </a>
+                    <div class="card-body display-flex-column" style="padding-top: 20px;">
+                        <a th:href="|/mark/${r.markDetailId}/store/review/${r.reviewId}|"
+                           class="text-decoration-none fw-normal" style="color: black;"
+                        >
+                            <div class="display-flex-row" style="min-height: 100px; max-height: 200px; cursor:pointer;">
+                                <div class="display-flex-column" style="width: 80%;">
+                                    <div class="display-flex-row">
+                                        <img src="/images/icon.png" class="card-img-top justify-content-center" width="30" height="35" style="width: 15%;">
+                                        <span class="card-title p-1" style="width: 85%; font-weight: normal; font-size: 12px;">
+                                            [[${r.nickname}]]&nbsp;|&nbsp;[[${#temporals.format(r.createdAt, 'YYYY-MM-dd')}]]
+                                        </span>
+                                    </div>
+                                    <div class="p-2" th:utext="${r.content}" style="word-break: break-all; overflow: hidden; max-height: 100px;"></div>
+                                </div>
+                                <div style="width: 20%;">
+                                    <img th:src="${not #strings.isEmpty(r.bannerImg) ? r.bannerImg : '/images/star_logo.png'}" class="card-img-top justify-content-center" width="40" height="75">
+                                </div>
                             </div>
-                            <div style="width: 20%;">
-                                <img th:src="${not #strings.isEmpty(r.bannerImg) ? r.bannerImg : '/images/star_logo.png'}" class="card-img-top justify-content-center" width="40" height="75" style="border-radius: 25px;">
-                            </div>
-                        </div>
-                        <span class="d-inline-block mb-2 text-black col-12">
-                        [[${#temporals.format(r.createdAt, 'YYYY-MM-dd HH:mm')}]]
-                    </span>
+                        </a>
                     </div>
                 </div>
             </div>
