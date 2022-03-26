@@ -25,7 +25,7 @@ public class MemberRole extends BaseTimeEntity implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "member_role_id")
     private Long id;
 

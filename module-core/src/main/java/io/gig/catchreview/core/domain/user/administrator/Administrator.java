@@ -26,7 +26,7 @@ import java.util.stream.Collectors;
 public class Administrator extends AbstractUser {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "admin_id")
     private Long id;
 

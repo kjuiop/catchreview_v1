@@ -32,7 +32,7 @@ import java.util.Set;
 public class Menu extends BaseTimeEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "menu_id")
     private Long id;
 
