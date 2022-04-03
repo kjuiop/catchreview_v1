@@ -74,7 +74,6 @@ subprojects {
         // XSS Filter
         implementation 'com.navercorp.lucy:lucy-xss-servlet:2.0.1'
 
-
         compileOnly 'org.projectlombok:lombok'
         developmentOnly 'org.springframework.boot:spring-boot-devtools'
 
