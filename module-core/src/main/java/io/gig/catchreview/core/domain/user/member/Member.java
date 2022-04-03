@@ -7,6 +7,7 @@ import io.gig.catchreview.core.domain.user.AbstractUser;
 import io.gig.catchreview.core.domain.user.LoginUser;
 import io.gig.catchreview.core.domain.user.UserStatus;
 import io.gig.catchreview.core.domain.user.member.dto.MemberUpdateForm;
+import io.gig.catchreview.core.domain.user.member.dto.SignUpForm;
 import io.gig.catchreview.core.exception.UnauthorizedException;
 import lombok.*;
 import lombok.experimental.SuperBuilder;

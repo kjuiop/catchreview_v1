@@ -1,8 +1,7 @@
 package io.gig.cathreview.web.controller;
 
-import io.gig.catchreview.core.domain.user.member.Member;
 import io.gig.catchreview.core.domain.user.member.MemberService;
-import io.gig.catchreview.core.domain.user.member.SignUpForm;
+import io.gig.catchreview.core.domain.user.member.dto.SignUpForm;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -57,8 +56,8 @@ public class SecurityController {
             return "security/sign-up";
         }
 
-        String username = memberService.signUp(signUpForm);
-        memberService.sendVerifyMail(username);
+//        String username = memberService.signUp(signUpForm);
+//        memberService.sendVerifyMail(username);
 
         redirectAttributes.addFlashAttribute("message", SIGN_UP_COMPLETE_MESSAGE);
 

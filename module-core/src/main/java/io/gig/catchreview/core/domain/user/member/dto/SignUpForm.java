@@ -1,4 +1,4 @@
-package io.gig.catchreview.core.domain.user.member;
+package io.gig.catchreview.core.domain.user.member.dto;
 
 import io.gig.catchreview.core.domain.common.types.YnType;
 import io.gig.catchreview.core.domain.user.UserType;
@@ -6,6 +6,7 @@ import io.gig.catchreview.core.domain.user.validations.EqualPassword;
 import io.gig.catchreview.core.domain.user.validations.UniqueUsername;
 import lombok.*;
 
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;
 
@@ -16,7 +17,7 @@ import javax.validation.constraints.Pattern;
 @Getter
 @Setter
 @Builder
-@EqualPassword
+//@EqualPassword
 @NoArgsConstructor
 @AllArgsConstructor
 public class SignUpForm {
@@ -29,11 +30,18 @@ public class SignUpForm {
     @NotEmpty(message = "패스워드를 입력해주세요.")
     private String password;
 
-    @NotEmpty(message = "패스워드 확인을 해주세요.")
     private String confirmPassword;
 
     @NotEmpty(message = "닉네임을 입력해주세요.")
     private String nickname;
+
+    @NotBlank(message = "이름을 입력해주세요.")
+    private String name;
+
+    @NotBlank(message = "생년월일을 입력해주세요.")
+    private String birth;
+
+    private String gender;
 
     @Builder.Default
     private YnType privacyConfirm = YnType.N;

@@ -1,6 +1,6 @@
 package io.gig.catchreview.core.domain.user.validations;
 
-import io.gig.catchreview.core.domain.user.member.SignUpForm;
+import io.gig.catchreview.core.domain.user.member.dto.SignUpForm;
 import io.gig.catchreview.core.domain.user.member.dto.ChangePassword;
 import org.springframework.stereotype.Component;
 
